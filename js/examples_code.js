@@ -93,8 +93,8 @@ $(document).ready(function() {
 
         $('#container').append(
             '<div class="mix f' + filterType + '">' +
-            '<a class="fancybox fancybox.iframe" href="exmain.html?name=' + exampleName[i] + '" title="' + exampleDesc[i] + '">' +
-            '<img width="400" height="225" src="examples/img/' + exampleName[i] + '.png"><div class="extext"><p>' + exampleDesc[i] + '</p></div></a>' +
+            '<a class="fancybox fancybox.iframe" href="examples_web/exmain.html?name=' + exampleName[i] + '" title="' + exampleDesc[i] + '">' +
+            '<img width="400" height="225" src="../examples/img/' + exampleName[i] + '.png"><div class="extext"><p>' + exampleDesc[i] + '</p></div></a>' +
             '</div>');
 
         $('#container a .extext').hide();

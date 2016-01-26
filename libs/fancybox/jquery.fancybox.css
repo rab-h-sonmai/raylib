@@ -17,8 +17,15 @@
 	vertical-align: top;
 }
 
+/* Ray: modified for raylib examples */
+.fancybox-inner
+{
+    overflow: hidden!important;
+}
+
+/* Ray: modified for raylib examples */
 .fancybox-wrap {
-    width: 860px!important;     /* Ray: modified for raylib examples */
+    width: 860px!important;
 }
 
 .fancybox-wrap {
@@ -50,9 +57,10 @@
 	position: relative;
 }
 
+/* Ray: modified for raylib examples */
 .fancybox-inner {
 	overflow: hidden;
-    width: 850px!important;     /* Ray: modified for raylib examples */
+    width: 850px!important;     
 }
 
 .fancybox-type-iframe .fancybox-inner {
@@ -67,9 +75,10 @@
 	white-space: nowrap;
 }
 
+/* Ray: modified for raylib examples */
 .fancybox-image, .fancybox-iframe {
 	display: block;
-	width: 830px;      /* Ray: modified for raylib examples */
+	width: 830px;      
 	height: 100%;
 }
 
