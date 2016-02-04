@@ -20,8 +20,8 @@ Module.expectedDataFileDownloads++;
     } else {
       throw 'using preloaded data can only be done on a web page or in a web worker';
     }
-    var PACKAGE_NAME = 'king_game.data';
-    var REMOTE_PACKAGE_BASE = 'king_game.data';
+    var PACKAGE_NAME = 'skully_escape.data';
+    var REMOTE_PACKAGE_BASE = 'skully_escape.data';
     if (typeof Module['locateFilePackage'] === 'function' && !Module['locateFile']) {
       Module['locateFile'] = Module['locateFilePackage'];
       Module.printErr('warning: you defined Module.locateFilePackage, that has been renamed to Module.locateFile (using your locateFilePackage for now)');
@@ -204,10 +204,10 @@ Module['FS_createPath']('/resources', 'textures', true, true);
           DataRequest.prototype.requests["/resources/textures/skully_icon.png"].onload();
           DataRequest.prototype.requests["/resources/textures/skully_logo.png"].onload();
           DataRequest.prototype.requests["/resources/textures/title.png"].onload();
-          Module['removeRunDependency']('datafile_king_game.data');
+          Module['removeRunDependency']('datafile_skully_escape.data');
 
     };
-    Module['addRunDependency']('datafile_king_game.data');
+    Module['addRunDependency']('datafile_skully_escape.data');
   
     if (!Module.preloadResults) Module.preloadResults = {};
   
