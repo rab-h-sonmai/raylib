@@ -49,9 +49,12 @@ $(document).ready(function() {
         
         // TODO: samples open an exmain.html samples page while full games open a brand new page
         
-        var linkTag = '<a class="fancybox fancybox.iframe" href="examples_web/exmain.html?name=' + exampleName[i] + '" title="' + exampleDesc[i] + '">'
+        var linkTag
         
-        if (filterType == 'game') linkTag = '<a target="_blank" href="games/' + exampleName[i].substring(5) + '.html" title="' + exampleDesc[i] + '">'
+        if (filterType == 'sample') linkTag = '<a class="fancybox fancybox.iframe" href="games/sample_main.html?name=' + exampleName[i] + '" title="' + exampleDesc[i] + '">'
+        else if (filterType == 'game') linkTag = '<a target="_blank" href="games/' + exampleName[i].substring(5) + '.html" title="' + exampleDesc[i] + '">'
+        
+        if (exampleName[i] == 'game_koala_seasons') linkTag = '<a target="_blank" href="http://www.koalaseasons.com" title="' + exampleDesc[i] + '">'
 
         $('#container').append(
             '<div class="mix f' + filterType + '">' + linkTag +
