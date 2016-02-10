@@ -21,6 +21,7 @@
 .fancybox-inner
 {
     overflow: hidden!important;
+    min-height: 520px!important;
 }
 
 /* Ray: modified for raylib examples */
