@@ -61,9 +61,11 @@ p a:hover{text-decoration: none; color:gray;}
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f5f5f5', endColorstr='#e0e0e0',GradientType=0 );
 }
 	
-#social{ width:160px; height:50px; position:relative; float:right; margin-right:8px; margin-top:20px; margin-bottom:20px; }
+#social{ width:220px; height:50px; position:relative; float:right; margin-right:8px; margin-top:20px; margin-bottom:20px; }
 #social a:hover{ background-position: 0 -36px;}
 #twitch{ width:36px; height:36px; float:left; position:relative; background-image: url(../img/icon_twitch.png); cursor: pointer; background-repeat:no-repeat; background-position: 0 0;}
+#patreon{ width:36px; height:36px; float:left; position:relative; background-image: url(../img/icon_patreon.png); cursor: pointer; background-repeat:no-repeat; background-position: 0 0;}
+#reddit{ width:36px; height:36px; float:left; position:relative; background-image: url(../img/icon_reddit.png); cursor: pointer; background-repeat:no-repeat; background-position: 0 0;}
 #facebook{ width:36px; height:36px; float:left; position:relative; background-image: url(../img/icon_facebook.png); cursor: pointer; background-repeat:no-repeat; background-position: 0 0;}
 #twitter{ width:36px; height:36px; float:left; position:relative; background-image: url(../img/icon_twitter.png); cursor: pointer; background-repeat:no-repeat; background-position: 0 0;}
 #github{ width:36px; height:36px; float:left; position:relative; background-image: url(../img/icon_github.png); cursor: pointer; background-repeat:no-repeat; background-position: 0 0;}
