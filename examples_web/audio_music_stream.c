@@ -2,9 +2,7 @@
 *
 *   raylib [audio] example - Music playing (streaming) (adapted for HTML5 platform)
 *
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
+*   NOTE: This example requires OpenAL Soft library installed
 *
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
@@ -26,7 +24,7 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 int framesCounter = 0;
-float timePlayed = 0;
+float timePlayed = 0.0f;
 
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
@@ -45,6 +43,8 @@ int main()
     InitAudioDevice();              // Initialize audio device
 
     PlayMusicStream("resources/audio/guitar_noodling.ogg");         // Play music stream
+    
+    
     
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -75,7 +75,6 @@ void UpdateDrawFrame(void)
 {
     // Update
     //----------------------------------------------------------------------------------
-    // TODO: Update your variables here
     framesCounter++;
     
     // Testing music fading from one file to another

@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [models] example - Cubicmap loading and drawing
+*   raylib [models] example - Cubicmap loading and drawing (adapted for HTML5 platform)
 *
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
@@ -22,12 +22,12 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 // Define the camera to look into our 3d world
-Camera camera = {{ 16.0, 14.0, 16.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 }};
+Camera camera = {{ 16.0f, 14.0f, 16.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
 
 Texture2D cubicmap;
 Model map;
 
-Vector3 mapPosition = { -16, 0.0, -8 };                 // Set model position
+Vector3 mapPosition = { -16.0f, 0.0f, -8.0f };                 // Set model position
 
 //----------------------------------------------------------------------------------
 // Module Functions Declaration

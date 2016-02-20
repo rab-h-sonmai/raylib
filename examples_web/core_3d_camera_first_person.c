@@ -1,10 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [core] example - Basic window (adapted for HTML5 platform)
-*
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
+*   raylib [core] example - 3d camera first person (adapted for HTML5 platform)
 *
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
@@ -29,7 +25,7 @@ int screenHeight = 450;
 
 //Camera camera;
 // Define the camera to look into our 3d world
-Camera camera = {{ 0.0, 10.0, 10.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 }};
+Camera camera = {{ 0.0f, 10.0f, 10.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
 
 // Generates some random columns
 float heights[MAX_COLUMNS];
@@ -37,7 +33,7 @@ Vector3 positions[MAX_COLUMNS];
 Color colors[MAX_COLUMNS];
 
 //Vector3 playerPosition;
-Vector3 playerPosition = { 4, 2, 4 };       // Define player position
+Vector3 playerPosition = { 4.0f, 2.0f, 4.0f };      // Define player position
 
 
 //----------------------------------------------------------------------------------
@@ -105,16 +101,16 @@ void UpdateDrawFrame(void)
 
         Begin3dMode(camera);
 
-            DrawPlane((Vector3){ 0, 0, 0 }, (Vector2){ 32, 32 }, LIGHTGRAY); // Draw ground
-            DrawCube((Vector3){ -16, 2.5, 0 }, 1, 5, 32, BLUE);     // Draw a blue wall
-            DrawCube((Vector3){ 16, 2.5, 0 }, 1, 5, 32, LIME);      // Draw a green wall
-            DrawCube((Vector3){ 0, 2.5, 16 }, 32, 5, 1, GOLD);      // Draw a yellow wall
+            DrawPlane((Vector3){ 0.0f, 0.0f, 0.0f }, (Vector2){ 32.0f, 32.0f }, LIGHTGRAY); // Draw ground
+            DrawCube((Vector3){ -16.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 32.0f, BLUE);     // Draw a blue wall
+            DrawCube((Vector3){ 16.0f, 2.5f, 0.0f }, 1.0f, 5.0f, 32.0f, LIME);      // Draw a green wall
+            DrawCube((Vector3){ 0.0f, 2.5f, 16.0f }, 32.0f, 5.0f, 1.0f, GOLD);      // Draw a yellow wall
             
             // Draw some cubes around
             for (int i = 0; i < MAX_COLUMNS; i++)
             {
-                DrawCube(positions[i], 2, heights[i], 2, colors[i]);
-                DrawCubeWires(positions[i], 2, heights[i], 2, MAROON);
+                DrawCube(positions[i], 2.0f, heights[i], 2.0f, colors[i]);
+                DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
             }
 
         End3dMode();

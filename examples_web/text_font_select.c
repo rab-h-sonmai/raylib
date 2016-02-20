@@ -2,10 +2,6 @@
 *
 *   raylib [core] example - Font selector (adapted for HTML5 platform)
 *
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
-*
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
 *
@@ -29,17 +25,16 @@ SpriteFont fonts[8];        // SpriteFont array
 
 int currentFont = 0;        // Selected font
 
-Color colors[8] = { MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, LIME, GOLD, RED };
+Color *colors;
+const char (*fontNames)[20];
 
-const char fontNames[8][20] = { "[0] Alagard", "[1] PixelPlay", "[2] MECHA", "[3] Setback",
-                         "[4] Romulus", "[5] PixAntiqua", "[6] Alpha Beta", "[7] Jupiter Crash" };;
 const char text[50] = "THIS is THE FONT you SELECTED!";
 
 Vector2 textSize;
 Vector2 mousePoint;
 
-Color btnNextOutColor = DARKBLUE;       // Button color (outside line)
-Color btnNextInColor = SKYBLUE;         // Button color (inside)
+Color btnNextOutColor;       // Button color (outside line)
+Color btnNextInColor;        // Button color (inside)
 
 int framesCounter = 0;      // Useful to count frames button is 'active' = clicked
 int positionY = 180;        // Text selector and button Y position
@@ -59,7 +54,10 @@ int main()
     // Initialization
     //--------------------------------------------------------------------------------------
     InitWindow(screenWidth, screenHeight, "raylib [text] example - font selector");
-   
+    
+    btnNextOutColor = DARKBLUE;
+    btnNextInColor = SKYBLUE;
+    
     // NOTE: Textures MUST be loaded after Window initialization (OpenGL context is required)
     fonts[0] = LoadSpriteFont("resources/fonts/alagard.rbmf");       // SpriteFont loading
     fonts[1] = LoadSpriteFont("resources/fonts/pixelplay.rbmf");     // SpriteFont loading
@@ -69,6 +67,15 @@ int main()
     fonts[5] = LoadSpriteFont("resources/fonts/pixantiqua.rbmf");    // SpriteFont loading
     fonts[6] = LoadSpriteFont("resources/fonts/alpha_beta.rbmf");    // SpriteFont loading
     fonts[7] = LoadSpriteFont("resources/fonts/jupiter_crash.rbmf"); // SpriteFont loading
+    
+    Color tempColors[8] = { MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, LIME, GOLD, RED };
+    
+    colors = tempColors;
+    
+    const char tempFontNames[8][20] = { "[0] Alagard", "[1] PixelPlay", "[2] MECHA", "[3] Setback",
+                         "[4] Romulus", "[5] PixAntiqua", "[6] Alpha Beta", "[7] Jupiter Crash" };;
+                         
+    fontNames = tempFontNames;
     
     textSize = MeasureTextEx(fonts[currentFont], text, fonts[currentFont].size*3, 1);
     

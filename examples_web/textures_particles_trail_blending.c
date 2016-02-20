@@ -2,10 +2,6 @@
 *
 *   raylib [core] example - Basic window (adapted for HTML5 platform)
 *
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
-*
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
 *
@@ -39,7 +35,7 @@ typedef struct {
 
 Particle mouseTail[MAX_PARTICLES]; 
 
-float gravity = 3;
+float gravity = 3.0f;
 
 Texture2D smoke;
 
@@ -66,7 +62,7 @@ int main()
         mouseTail[i].position = (Vector2){ 0, 0 };
         mouseTail[i].color = (Color){ GetRandomValue(0, 255), GetRandomValue(0, 255), GetRandomValue(0, 255), 255 };
         mouseTail[i].alpha = 1.0f;
-        mouseTail[i].size = (float)GetRandomValue(1, 30)/20;
+        mouseTail[i].size = (float)GetRandomValue(1, 30)/20.0f;
         mouseTail[i].rotation = GetRandomValue(0, 360);
         mouseTail[i].active = false;
     }
@@ -88,6 +84,8 @@ int main()
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
+	UnloadTexture(smoke);	// Texture unloading
+	 
     CloseWindow();        // Close window and OpenGL context
     //--------------------------------------------------------------------------------------
 
@@ -125,7 +123,7 @@ void UpdateDrawFrame(void)
             
             if (mouseTail[i].alpha <= 0.0f) mouseTail[i].active = false;
             
-            mouseTail[i].rotation += 5;
+            mouseTail[i].rotation += 5.0f;
         }
     }
     

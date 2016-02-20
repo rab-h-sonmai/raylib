@@ -60395,8 +60395,7 @@ attribute vec3 vertexNormal;
 
 varying vec2 fragTexCoord;
 
-uniform mat4 projectionMatrix;
-uniform mat4 modelviewMatrix;
+uniform mat4 mvpMatrix;
 
 // NOTE: Add here your custom variables 
 
@@ -60406,7 +60405,7 @@ void main()
     
     fragTexCoord = vertexTexCoord;
     
-    gl_Position = projectionMatrix*modelviewMatrix*vec4(vertexPosition, 1.0);
+    gl_Position = mvpMatrix*vec4(vertexPosition, 1.0);
 }#version 100
 
 precision mediump float;
@@ -60414,16 +60413,16 @@ precision mediump float;
 varying vec2 fragTexCoord;
 
 uniform sampler2D texture0;
-uniform vec4 tintColor;
+uniform vec4 fragTintColor;
 
 // NOTE: Add here your custom variables
 
 void main()
 {
-    vec4 base = texture2D(texture0, fragTexCoord)*tintColor;
+    vec4 base = texture2D(texture0, fragTexCoord)*fragTintColor;
     
     // Convert to grayscale using NTSC conversion weights
     float gray = dot(base.rgb, vec3(0.299, 0.587, 0.114));
     
-    gl_FragColor = vec4(gray, gray, gray, tintColor.a);
+    gl_FragColor = vec4(gray, gray, gray, fragTintColor.a);
 }

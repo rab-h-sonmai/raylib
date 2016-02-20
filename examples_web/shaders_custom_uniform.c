@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [shaders] example - Apply a postprocessing shader and connect a custom uniform variable
+*   raylib [shaders] example - Apply a postprocessing shader and connect a custom uniform variable (adapted for HTML5 platform)
 *
 *   NOTE: This example requires raylib OpenGL 3.3 or ES2 versions for shaders support,
 *         OpenGL 1.1 does not support shaders, recompile raylib to OpenGL 3.3 version.
@@ -29,13 +29,13 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 // Define the camera to look into our 3d world
-Camera camera = {{ 3.0, 3.0, 3.0 }, { 0.0, 1.5, 0.0 }, { 0.0, 1.0, 0.0 }};
+Camera camera = {{ 3.0f, 3.0f, 3.0f }, { 0.0f, 1.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
 
 Model dwarf;         // OBJ model
 Texture2D texture;   // Model texture
 Shader shader;       // Postpro shader
 
-Vector3 position = { 0.0, 0.0, 0.0 };  // Set model position
+Vector3 position = { 0.0f, 0.0f, 0.0f };  // Set model position
 
 int swirlCenterLoc;
 float swirlCenter[2];
@@ -59,14 +59,15 @@ int main()
     texture = LoadTexture("resources/model/dwarf_diffuse.png");   // Load model texture
     SetModelTexture(&dwarf, texture);                                       // Bind texture to model
 
-    shader = LoadShader("resources/shaders/base.vs", "resources/shaders/swirl.fs");               // Load postpro shader
+    shader = LoadShader("resources/shaders/base.vs",
+						"resources/shaders/swirl.fs");               // Load postpro shader
     
     // Get variable (uniform) location on the shader to connect with the program
     // NOTE: If uniform variable could not be found in the shader, function returns -1
     swirlCenterLoc = GetShaderLocation(shader, "center");
     
-    swirlCenter[0] = screenWidth/2;
-    swirlCenter[1] = screenHeight/2;
+    swirlCenter[0] = (float)screenWidth/2;
+    swirlCenter[1] = (float)screenHeight/2;
     
     SetPostproShader(shader);               // Set fullscreen postprocessing shader
     
@@ -128,7 +129,7 @@ void UpdateDrawFrame(void)
 
             DrawModel(dwarf, position, 2.0f, WHITE);   // Draw 3d model with texture
 
-            DrawGrid(10.0, 1.0);     // Draw a grid
+            DrawGrid(10, 1.0f);     // Draw a grid
 
         End3dMode();
         

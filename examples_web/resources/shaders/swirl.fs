@@ -5,12 +5,12 @@ precision mediump float;
 varying vec2 fragTexCoord;
 
 uniform sampler2D texture0;
-uniform vec4 tintColor;
+uniform vec4 fragTintColor;
 
 // NOTE: Add here your custom variables
 
-float renderWidth = 800.0; 
-float renderHeight = 450.0; 
+const float renderWidth = 800.0;      // HARDCODED for example!
+const float renderHeight = 450.0;     // Use uniforms instead...
 
 float radius = 250.0;
 float angle = 0.8;
@@ -23,7 +23,7 @@ void main (void)
     vec2 tc = fragTexCoord*texSize;
     tc -= center;
     float dist = length(tc);
-    
+
     if (dist < radius) 
     {
         float percent = (radius - dist)/radius;
@@ -33,7 +33,7 @@ void main (void)
         
         tc = vec2(dot(tc, vec2(c, -s)), dot(tc, vec2(s, c)));
     }
-    
+
     tc += center;
     vec3 color = texture2D(texture0, tc/texSize).rgb;
 

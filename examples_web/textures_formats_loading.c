@@ -1,10 +1,9 @@
 /*******************************************************************************************
 *
-*   raylib [core] example - Basic window (adapted for HTML5 platform)
+*   raylib [textures] example - texture formats loading (adapted for HTML5 platform)
 *
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
+*   NOTE: This example requires raylib OpenGL 3.3+ or ES2 versions for compressed textures,
+*         OpenGL 1.1 does not support compressed textures, only uncompressed ones.
 *
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
@@ -168,6 +167,7 @@ int main()
     // Load COMPRESSED PVR texture data (if supported)
     sonic[PVR_PVRT_RGB] = LoadTexture("resources/texture_formats/sonic_PVRT_RGB.pvr");
     sonic[PVR_PVRT_RGBA] = LoadTexture("resources/texture_formats/sonic_PVRT_RGBA.pvr");
+    
     
     
     for (int i = 0; i < NUM_TEXTURES; i++)

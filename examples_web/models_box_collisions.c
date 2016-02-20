@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [models] example - Detect basic 3d collisions (box vs sphere vs box)
+*   raylib [models] example - Detect basic 3d collisions (box vs sphere vs box) (adapted for HTML5 platform)
 *
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
@@ -21,19 +21,20 @@
 int screenWidth = 800;
 int screenHeight = 450;
 
+
 // Define the camera to look into our 3d world
-Camera camera = {{ 0.0, 10.0, 10.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 }};
-
-Vector3 playerPosition = { 0, 1, 2 };
-Vector3 playerSize = { 1, 2, 1 };
-Color playerColor = GREEN;
-
-Vector3 enemyBoxPos = { -4, 1, 0 };
-Vector3 enemyBoxSize = { 2, 2, 2 };
-
-Vector3 enemySpherePos = { 4, 0, 0 };
+Camera camera = {{ 0.0f, 10.0f, 10.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
+    
+Vector3 playerPosition = { 0.0f, 1.0f, 2.0f };
+Vector3 playerSize = { 1.0f, 2.0f, 1.0f };
+Color playerColor;
+    
+Vector3 enemyBoxPos = { -4.0f, 1.0f, 0.0f };
+Vector3 enemyBoxSize = { 2.0f, 2.0f, 2.0f };
+    
+Vector3 enemySpherePos = { 4.0f, 0.0f, 0.0f };
 float enemySphereSize = 1.5f;
-
+    
 bool collision = false;
 
 //----------------------------------------------------------------------------------
@@ -49,7 +50,9 @@ int main()
     // Initialization
     //--------------------------------------------------------------------------------------
     InitWindow(screenWidth, screenHeight, "raylib [models] example - box collisions");
-
+    
+    playerColor = GREEN;
+    
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
@@ -133,7 +136,7 @@ void UpdateDrawFrame(void)
             // Draw player
             DrawCubeV(playerPosition, playerSize, playerColor);
 
-            DrawGrid(10.0, 1.0);        // Draw a grid
+            DrawGrid(10, 1.0f);        // Draw a grid
 
         End3dMode();
         

@@ -2,10 +2,6 @@
 *
 *   raylib [core] example - Generate random values (adapted for HTML5 platform)
 *
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
-*
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
 *
@@ -28,7 +24,6 @@ int screenHeight = 450;
 int framesCounter = 0;  // Variable used to count frames
 int randValue;
 
-
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
 //----------------------------------------------------------------------------------
@@ -43,7 +38,7 @@ int main()
     //--------------------------------------------------------------------------------------
     InitWindow(screenWidth, screenHeight, "raylib [core] example - generate random values");
     
-    randValue = GetRandomValue(-8,5);   // Get a random integer number between -8 and 5 (both included)
+    randValue = GetRandomValue(-8, 5);   // Get a random integer number between -8 and 5 (both included)
     
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -78,7 +73,7 @@ void UpdateDrawFrame(void)
     // Every two seconds (120 frames) a new random value is generated
     if (((framesCounter/120)%2) == 1)
     {
-        randValue = GetRandomValue(-8,5);
+        randValue = GetRandomValue(-8, 5);
         framesCounter = 0;
     }
     //----------------------------------------------------------------------------------

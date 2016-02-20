@@ -2,9 +2,8 @@
 *
 *   raylib [core] example - Gamepad input (adapted for HTML5 platform)
 *
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
+*   NOTE: This example requires a Gamepad connected to the system
+*         raylib is configured to work with Xbox 360 gamepad, check raylib.h for buttons configuration
 *
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
@@ -26,7 +25,7 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 Vector2 ballPosition;
-Vector2 gamepadMovement = { 0, 0 };
+Vector2 gamepadMovement = { 0.0f, 0.0f };
 
 
 //----------------------------------------------------------------------------------
@@ -43,7 +42,7 @@ int main()
     //--------------------------------------------------------------------------------------
     InitWindow(screenWidth, screenHeight, "raylib [core] example - gamepad input");
     
-    ballPosition = (Vector2){ screenWidth/2, screenHeight/2 };
+    ballPosition = (Vector2){ (float)screenWidth/2, (float)screenHeight/2 };
     
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -78,12 +77,12 @@ void UpdateDrawFrame(void)
         gamepadMovement = GetGamepadMovement(GAMEPAD_PLAYER1);
 
         ballPosition.x += gamepadMovement.x;
-        ballPosition.y += gamepadMovement.y;
+        ballPosition.y -= gamepadMovement.y;
 
         if (IsGamepadButtonPressed(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_A))
         {
-            ballPosition.x = screenWidth/2;
-            ballPosition.y = screenHeight/2;
+            ballPosition.x = (float)screenWidth/2;
+            ballPosition.y = (float)screenHeight/2;
         }
     }
     //----------------------------------------------------------------------------------

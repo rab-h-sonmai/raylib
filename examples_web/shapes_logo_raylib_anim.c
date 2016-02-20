@@ -1,15 +1,11 @@
 /*******************************************************************************************
 *
-*   raylib [core] example - raylib logo animation (adapted for HTML5 platform)
+*   raylib [shapes] example - raylib logo animation (adapted for HTML5 platform)
 *
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
-*
-*   This example has been created using raylib 1.3 (www.raylib.com)
+*   This example has been created using raylib 1.4 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
 *
-*   Copyright (c) 2015 Ramon Santamaria (@raysan5)
+*   Copyright (c) 2014 Ramon Santamaria (@raysan5)
 *
 ********************************************************************************************/
 
@@ -37,11 +33,8 @@ int leftSideRecHeight = 16;
 int bottomSideRecWidth = 16;
 int rightSideRecHeight = 16;
 
-char raylib[8];   // raylib text array, max 8 letters
-
-int state = 0;        // Tracking animation states (State Machine)
-
-float alpha = 1.0;      // Useful for fading
+int state = 0;                  // Tracking animation states (State Machine)
+float alpha = 1.0f;             // Useful for fading
 
 
 //----------------------------------------------------------------------------------
@@ -60,11 +53,6 @@ int main()
     
     logoPositionX = screenWidth/2 - 128;
     logoPositionY = screenHeight/2 - 128;
-    
-    for (int i = 0; i < 8; i++)
-    {
-        raylib[i] = '\0';
-    }
     
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -128,24 +116,13 @@ void UpdateDrawFrame(void)
             framesCounter = 0;
         }
 
-        switch (lettersCount)
-        {
-            case 1: raylib[0] = 'r'; break;
-            case 2: raylib[1] = 'a'; break;
-            case 3: raylib[2] = 'y'; break;
-            case 4: raylib[3] = 'l'; break;
-            case 5: raylib[4] = 'i'; break;
-            case 6: raylib[5] = 'b'; break;
-            default: break;
-        }
-
         if (lettersCount >= 10)     // When all letters have appeared, just fade out everything
         {
-            alpha -= 0.02;
+            alpha -= 0.02f;
 
-            if (alpha <= 0)
+            if (alpha <= 0.0f)
             {
-                alpha = 0;
+                alpha = 0.0f;
                 state = 4;
             }
         }
@@ -157,18 +134,13 @@ void UpdateDrawFrame(void)
             framesCounter = 0;
             lettersCount = 0;
 
-            topSideRecWidth = 16;
-            leftSideRecHeight = 16;
+        topSideRecWidth = 16;
+        leftSideRecHeight = 16;
 
-            bottomSideRecWidth = 16;
-            rightSideRecHeight = 16;
+        bottomSideRecWidth = 16;
+        rightSideRecHeight = 16;
 
-            for (int i = 0; i < 7; i++) raylib[i] = ' ';
-
-            raylib[7] = '\0';   // Last character is end-of-line
-
-            alpha = 1.0;
-
+            alpha = 1.0f;
             state = 0;          // Return to State 0
         }
     }
@@ -207,7 +179,7 @@ void UpdateDrawFrame(void)
 
             DrawRectangle(screenWidth/2 - 112, screenHeight/2 - 112, 224, 224, Fade(RAYWHITE, alpha));
 
-            DrawText(raylib, screenWidth/2 - 44, screenHeight/2 + 48, 50, Fade(BLACK, alpha));
+            DrawText(SubText("raylib", 0, lettersCount), screenWidth/2 - 44, screenHeight/2 + 48, 50, Fade(BLACK, alpha));
         }
         else if (state == 4)
         {

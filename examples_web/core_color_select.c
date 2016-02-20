@@ -1,11 +1,6 @@
 /*******************************************************************************************
 *
 *   raylib [core] example - Color selection by mouse (collision detection) (adapted for HTML5 platform)
-*
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
-*
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
 *
@@ -25,14 +20,9 @@
 int screenWidth = 800;
 int screenHeight = 450;
 
-Color colors[21] = { DARKGRAY, MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, DARKBROWN,
-                         GRAY, RED, GOLD, LIME, BLUE, VIOLET, BROWN, LIGHTGRAY, PINK, YELLOW,
-                         GREEN, SKYBLUE, PURPLE, BEIGE };
+Color *colors;
 
 Rectangle colorsRecs[21];             // Rectangles array
-
-
-
 
 bool selected[21] = { false };  // Selected rectangles indicator
 
@@ -51,6 +41,12 @@ int main()
     // Initialization
     //--------------------------------------------------------------------------------------
     InitWindow(screenWidth, screenHeight, "raylib [core] example - color selection (collision detection)");
+
+    Color tempColors[21] = { DARKGRAY, MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, DARKBROWN,
+                         GRAY, RED, GOLD, LIME, BLUE, VIOLET, BROWN, LIGHTGRAY, PINK, YELLOW,
+                         GREEN, SKYBLUE, PURPLE, BEIGE };
+                         
+    colors = tempColors;
     
     // Fills colorsRecs data (for every rectangle)
     for (int i = 0; i < 21; i++)
@@ -60,7 +56,6 @@ int main()
         colorsRecs[i].width = 100;
         colorsRecs[i].height = 100;
     }
-    
     
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);

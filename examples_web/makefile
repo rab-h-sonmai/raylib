@@ -3,7 +3,7 @@
 #   raylib makefile for desktop platforms, Raspberry Pi and HTML5 (emscripten)
 #
 #   Copyright (c) 2015 Ramon Santamaria (@raysan5)
-#    
+#
 #   This software is provided "as-is", without any express or implied warranty. In no event 
 #   will the authors be held liable for any damages arising from the use of this software.
 #
@@ -70,7 +70,8 @@ else
     CFLAGS = -O2 -Wall -std=c99
 endif
 ifeq ($(PLATFORM),PLATFORM_WEB)
-    CFLAGS = -O1 -Wall -std=c99 -s USE_GLFW=3 -s ASSERTIONS=1
+    CFLAGS = -O1 -Wall -std=c99 -s USE_GLFW=3
+    #-s ASSERTIONS=1            # to check for memory allocation errors (-O1 disables it)
     #-s ALLOW_MEMORY_GROWTH=1   # to allow memory resizing
     #-s TOTAL_MEMORY=16777216   # to specify heap memory size (default = 16MB)
 endif
@@ -81,12 +82,12 @@ endif
 ifeq ($(PLATFORM),PLATFORM_RPI)
     INCLUDES = -I. -I../src -I/opt/vc/include -I/opt/vc/include/interface/vcos/pthreads
 else
-    INCLUDES = -I. -I../src -IC:/raylib/raylib/src
+    INCLUDES = -I. -I../src -I../github/raylib/src
 # external libraries headers
 # GLFW3
     INCLUDES += -I../external/glfw3/include
-# GLEW
-    INCLUDES += -I../external/glew/include
+# GLEW: Not required any more, replaced by GLAD
+    #INCLUDES += -I../external/glew/include
 # OpenAL Soft
     INCLUDES += -I../external/openal_soft/include
 endif
@@ -101,9 +102,9 @@ else
     LFLAGS += -L../external/glfw3/lib/$(LIBPATH)
     ifneq ($(PLATFORM_OS),OSX)
     # OpenAL Soft
-    	LFLAGS += -L../external/openal_soft/lib/$(LIBPATH)
-	# GLEW
-    	LFLAGS += -L../external/glew/lib/$(LIBPATH)
+        LFLAGS += -L../external/openal_soft/lib/$(LIBPATH)
+    # GLEW: Not required any more, replaced by GLAD
+        #LFLAGS += -L../external/glew/lib/$(LIBPATH)
     endif
 endif
 
@@ -113,8 +114,10 @@ ifeq ($(PLATFORM),PLATFORM_DESKTOP)
     ifeq ($(PLATFORM_OS),LINUX)
         # libraries for Debian GNU/Linux desktop compiling
         # requires the following packages:
-        # libopenal-dev libglew-dev libegl1-mesa-dev
-        LIBS = -lraylib -lglfw3 -lGLEW -lGL -lopenal -lX11 -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor -lm -pthread
+        # libglfw3-dev libopenal-dev libglew-dev libegl1-mesa-dev
+        LIBS = -lraylib -lglfw3 -lGLEW -lGL -lopenal -lm -pthread
+        # on XWindow could require also below libraries, just uncomment
+        #LIBS += -lX11 -lXrandr -lXinerama -lXi -lXxf86vm -lXcursor
     else
     ifeq ($(PLATFORM_OS),OSX)
         # libraries for OS X 10.9 desktop compiling
@@ -124,7 +127,7 @@ ifeq ($(PLATFORM),PLATFORM_DESKTOP)
     else
         # libraries for Windows desktop compiling
         # NOTE: GLFW3 and OpenAL Soft libraries should be installed
-        LIBS = -lraylib -lglfw3 -lglew32 -lopengl32 -lopenal32 -lgdi32
+        LIBS = -lraylib -lglfw3 -lopengl32 -lopenal32 -lgdi32
     endif
     endif
 endif
@@ -134,7 +137,8 @@ ifeq ($(PLATFORM),PLATFORM_RPI)
     LIBS = -lraylib -lGLESv2 -lEGL -lpthread -lrt -lm -lbcm_host -lopenal
 endif
 ifeq ($(PLATFORM),PLATFORM_WEB)
-    LIBS = C:/raylib/raylib/src/libraylib.bc
+    # just adjust the correct path to libraylib.bc
+    LIBS = ../github/raylib/src/libraylib.bc
 endif
 
 # define additional parameters and flags for windows
@@ -158,6 +162,8 @@ EXAMPLES = \
     core_random_values \
     core_color_select \
     core_drop_files \
+    core_storage_values \
+    core_gestures_detection \
     core_3d_mode \
     core_3d_picking \
     core_3d_camera_free \
@@ -174,10 +180,14 @@ EXAMPLES = \
     textures_raw_data \
     textures_formats_loading \
     textures_particles_trail_blending \
+    textures_image_processing \
+    textures_image_drawing \
     text_sprite_fonts \
+    text_bmfont_ttf \
     text_rbmf_fonts \
     text_format_text \
     text_font_select \
+    text_writing_anim \
     models_geometric_shapes \
     models_box_collisions \
     models_billboard \
@@ -188,11 +198,10 @@ EXAMPLES = \
     shaders_shapes_textures \
     shaders_custom_uniform \
     shaders_postprocessing \
+    shaders_basic_lighting \
     audio_sound_loading \
     audio_music_stream \
     fix_dylib \
-
-    #core_input_gamepad \
 
 
 # typing 'make' will invoke the first target entry in the file,
@@ -214,6 +223,10 @@ core_input_keys: core_input_keys.c
 core_input_mouse: core_input_mouse.c
 	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
 
+# compile [core] example - mouse wheel
+core_mouse_wheel: core_mouse_wheel.c
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
+
 # compile [core] example - gamepad input
 core_input_gamepad: core_input_gamepad.c
 ifeq ($(PLATFORM),PLATFORM_DESKTOP)
@@ -222,8 +235,12 @@ else
 	@echo core_input_gamepad: Only supported on desktop platform
 endif
 
-# compile [core] example - mouse wheel
-core_mouse_wheel: core_mouse_wheel.c
+# compile [core] example - generate random values
+core_random_values: core_random_values.c
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
+
+# compile [core] example - color selection (collision detection)
+core_color_select: core_color_select.c
 	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
 
 # compile [core] example - drop files
@@ -233,13 +250,17 @@ ifeq ($(PLATFORM),PLATFORM_DESKTOP)
 else
 	@echo core_drop_files: Only supported on desktop platform
 endif
-    
-# compile [core] example - generate random values
-core_random_values: core_random_values.c
-	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
 
-# compile [core] example - color selection (collision detection)
-core_color_select: core_color_select.c
+# compile [core] example - storage values
+core_storage_values: core_storage_values.c
+ifeq ($(PLATFORM),PLATFORM_DESKTOP)
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
+else
+	@echo core_storage_values: Only supported on desktop platform
+endif
+
+# compile [core] example - gestures detection
+core_gestures_detection: core_gestures_detection.c
 	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
 
 # compile [core] example - 3d mode
@@ -256,7 +277,7 @@ core_3d_camera_free: core_3d_camera_free.c
 
 # compile [core] example - 3d camera first person
 core_3d_camera_first_person: core_3d_camera_first_person.c
-	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)  
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
     
 # compile [shapes] example - raylib logo (with basic shapes)
 shapes_logo_raylib: shapes_logo_raylib.c
@@ -306,13 +327,25 @@ textures_formats_loading: textures_formats_loading.c
 textures_particles_trail_blending: textures_particles_trail_blending.c
 	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/smoke.png
     
+# compile [textures] example - texture image processing
+textures_image_processing: textures_image_processing.c
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/parrots.png
+    
+# compile [textures] example - texture image drawing
+textures_image_drawing: textures_image_drawing.c
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/parrots.png --preload-file resources/cat.png
+    
 # compile [text] example - sprite fonts loading
 text_sprite_fonts: text_sprite_fonts.c
-	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/fonts/custom_mecha.png --preload-file resources/fonts/custom_alagard.png --preload-file resources/fonts/custom_jupiter_crash.png 
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/fonts/custom_mecha.png --preload-file resources/fonts/custom_alagard.png --preload-file resources/fonts/custom_jupiter_crash.png
+
+# compile [text] example - bmfonts and ttf loading
+text_bmfont_ttf: text_bmfont_ttf.c
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/fonts/bmfont.fnt --preload-file resources/fonts/pixantiqua.ttf
 
 # compile [text] example - raylib bitmap fonts (rBMF)
 text_rbmf_fonts: text_rbmf_fonts.c
-	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/fonts
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/fonts/alagard.rbmf --preload-file resources/fonts/pixelplay.rbmf --preload-file resources/fonts/mecha.rbmf --preload-file resources/fonts/setback.rbmf --preload-file resources/fonts/romulus.rbmf --preload-file resources/fonts/pixantiqua.rbmf --preload-file resources/fonts/alpha_beta.rbmf --preload-file resources/fonts/jupiter_crash.rbmf
 
 # compile [text] example - text formatting
 text_format_text: text_format_text.c
@@ -320,7 +353,11 @@ text_format_text: text_format_text.c
 
 # compile [text] example - font selection program
 text_font_select: text_font_select.c
-	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/fonts
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/fonts/alagard.rbmf --preload-file resources/fonts/pixelplay.rbmf --preload-file resources/fonts/mecha.rbmf --preload-file resources/fonts/setback.rbmf --preload-file resources/fonts/romulus.rbmf --preload-file resources/fonts/pixantiqua.rbmf --preload-file resources/fonts/alpha_beta.rbmf --preload-file resources/fonts/jupiter_crash.rbmf
+
+# compile [text] example - text writing animation
+text_writing_anim: text_writing_anim.c
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
 
 # compile [models] example - basic geometric 3d shapes
 models_geometric_shapes: models_geometric_shapes.c
@@ -328,6 +365,10 @@ models_geometric_shapes: models_geometric_shapes.c
 
 # compile [models] example - box collisions
 models_box_collisions: models_box_collisions.c
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
+    
+# compile [models] example - basic window
+models_planes: models_planes.c
 	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS)
 
 # compile [models] example - billboard usage
@@ -352,7 +393,7 @@ shaders_model_shader: shaders_model_shader.c
     
 # compile [shaders] example - shapes texture shader
 shaders_shapes_textures: shaders_shapes_textures.c
-	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/texture_formats/sonic.png --preload-file resources/shaders/shapes_base.vs  --preload-file resources/shaders/shapes_grayscale.fs
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) --preload-file resources/texture_formats/sonic.png --preload-file resources/shaders/shapes_base.vs --preload-file resources/shaders/shapes_grayscale.fs
     
 # compile [shaders] example - custom uniform in shader
 shaders_custom_uniform: shaders_custom_uniform.c
@@ -361,6 +402,10 @@ shaders_custom_uniform: shaders_custom_uniform.c
 # compile [shaders] example - postprocessing shader
 shaders_postprocessing: shaders_postprocessing.c
 	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) -s TOTAL_MEMORY=67108864 --preload-file resources/model/dwarf.obj --preload-file resources/model/dwarf_diffuse.png --preload-file resources/shaders/base.vs --preload-file resources/shaders/bloom.fs
+
+# compile [shaders] example - shaders_basic_lighting
+shaders_basic_lighting: shaders_basic_lighting.c
+	$(CC) -o $@$(EXT) $< $(CFLAGS) $(INCLUDES) $(LFLAGS) $(LIBS) -D$(PLATFORM) $(WINFLAGS) -s TOTAL_MEMORY=67108864 --preload-file resources/model/dwarf.obj --preload-file resources/shaders/phong.vs --preload-file resources/shaders/phong.fs
     
 # compile [audio] example - sound loading and playing (WAV and OGG)
 audio_sound_loading: audio_sound_loading.c

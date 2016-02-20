@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [models] example - Load and draw a 3d model (OBJ)
+*   raylib [models] example - Load and draw a 3d model (OBJ) (adapted for HTML5 platform)
 *
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
@@ -22,12 +22,12 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 // Define the camera to look into our 3d world
-Camera camera = {{ 3.0, 3.0, 3.0 }, { 0.0, 1.5, 0.0 }, { 0.0, 1.0, 0.0 }};
+Camera camera = {{ 3.0f, 3.0f, 3.0f }, { 0.0f, 1.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
 
 Model dwarf;        // Declare OBJ model
 Texture2D texture;  // Declare model texture
 
-Vector3 position = { 0.0, 0.0, 0.0 };   // Define model position
+Vector3 position = { 0.0f, 0.0f, 0.0f };   // Define model position
 
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
@@ -92,7 +92,7 @@ void UpdateDrawFrame(void)
 
             DrawModel(dwarf, position, 2.0f, WHITE);   // Draw 3d model with texture
 
-            DrawGrid(10.0, 1.0);        // Draw a grid
+            DrawGrid(10, 1.0f);        // Draw a grid
 
             DrawGizmo(position);        // Draw gizmo
 

@@ -57,7 +57,7 @@
                 var mainUrl = $(location).attr('href');
                 var name = mainUrl.slice(mainUrl.indexOf('=') + 1);
                 
-                document.title = "raylib -" + name.replace('_', ' ');
+                document.title = "raylib - " + name.replace('_', ' ');
 
                 var rawgitUrl = '../examples/' + name + '.c';
                 var gitUrl = '../examples/img/' + name + '.png';
@@ -72,7 +72,6 @@
                 // Quick hack for some examples not working on web
                 if ((name == "core_drop_files") || 
                     (name == "core_input_gamepad") || 
-                    (name == "textures_formats_loading") || 
                     (name == "core_storage_values"))
                 {
                     $('#eximage').append('<img src="' + gitUrl + '" alt=" ">');

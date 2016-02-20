@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [models] example - Drawing billboards
+*   raylib [models] example - Drawing billboards  (adapted for HTML5 platform)
 *
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
@@ -22,10 +22,10 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 // Define the camera to look into our 3d world
-Camera camera = {{ 5.0, 4.0, 5.0 }, { 0.0, 2.0, 0.0 }, { 0.0, 1.0, 0.0 }};
+Camera camera = {{ 5.0f, 4.0f, 5.0f }, { 0.0f, 2.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
 
 Texture2D bill;                                 // Our texture billboard
-Vector3 billPosition = { 0.0, 2.0, 0.0 };       // Position where draw billboard
+Vector3 billPosition = { 0.0f, 2.0f, 0.0f };    // Position where draw billboard
     
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
@@ -90,7 +90,7 @@ void UpdateDrawFrame(void)
 
             DrawBillboard(camera, bill, billPosition, 2.0f, WHITE);
 
-            DrawGrid(10.0, 1.0);        // Draw a grid
+            DrawGrid(10, 1.0f);        // Draw a grid
 
         End3dMode();
 

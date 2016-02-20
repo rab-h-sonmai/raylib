@@ -2,10 +2,6 @@
 *
 *   raylib [core] example - raylib bitmap font (rbmf) loading and usage (adapted for HTML5 platform)
 *
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
-*
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
 *
@@ -26,21 +22,11 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 SpriteFont fonts[8];
-                                
 const int spacings[8] = { 2, 4, 8, 4, 3, 4, 4, 1 };
-
 Vector2 positions[8];
 
-Color colors[8] = { MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, LIME, GOLD };
-
-const char messages[8][64] = { "ALAGARD FONT designed by Hewett Tsoi", 
-                               "PIXELPLAY FONT designed by Aleksander Shevchuk",
-                               "MECHA FONT designed by Captain Falcon",  
-                               "SETBACK FONT designed by Brian Kent (AEnigma)", 
-                               "ROMULUS FONT designed by Hewett Tsoi", 
-                               "PIXANTIQUA FONT designed by Gerhard Grossmann",
-                               "ALPHA_BETA FONT designed by Brian Kent (AEnigma)",
-                               "JUPITER_CRASH FONT designed by Brian Kent (AEnigma)" };
+Color *colors;
+const char (*messages)[64];
 
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
@@ -55,6 +41,21 @@ int main()
     // Initialization
     //--------------------------------------------------------------------------------------
     InitWindow(screenWidth, screenHeight, "raylib [text] example - rBMF fonts");
+    
+    Color tempColors[8] = { MAROON, ORANGE, DARKGREEN, DARKBLUE, DARKPURPLE, LIME, GOLD };
+    
+    colors = tempColors;
+    
+    const char tempMessages[8][64] = { "ALAGARD FONT designed by Hewett Tsoi", 
+                               "PIXELPLAY FONT designed by Aleksander Shevchuk",
+                               "MECHA FONT designed by Captain Falcon",  
+                               "SETBACK FONT designed by Brian Kent (AEnigma)", 
+                               "ROMULUS FONT designed by Hewett Tsoi", 
+                               "PIXANTIQUA FONT designed by Gerhard Grossmann",
+                               "ALPHA_BETA FONT designed by Brian Kent (AEnigma)",
+                               "JUPITER_CRASH FONT designed by Brian Kent (AEnigma)" };
+    
+    messages = tempMessages;
     
     fonts[0] = LoadSpriteFont("resources/fonts/alagard.rbmf");       // rBMF font loading
     fonts[1] = LoadSpriteFont("resources/fonts/pixelplay.rbmf");     // rBMF font loading

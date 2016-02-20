@@ -1,6 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [shaders] example - Apply a shader to some shape or texture
+*   raylib [shaders] example - Apply a shader to some shape or texture (adapted for HTML5 platform)
 *
 *   NOTE: This example requires raylib OpenGL 3.3 or ES2 versions for shaders support,
 *         OpenGL 1.1 does not support shaders, recompile raylib to OpenGL 3.3 version.
@@ -52,7 +52,8 @@ int main()
 
     // NOTE: This shader is a bit different than model/postprocessing shaders,
     // it requires the color data for every vertice to use it in every shape or texture independently
-    shader = LoadShader("resources/shaders/shapes_base.vs", "resources/shaders/shapes_grayscale.fs");
+    shader = LoadShader("resources/shaders/shapes_base.vs",
+						"resources/shaders/shapes_grayscale.fs");
                                
     // Shader usage is also different than models/postprocessing, shader is just activated when required
     

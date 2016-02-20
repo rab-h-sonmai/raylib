@@ -1,10 +1,6 @@
 /*******************************************************************************************
 *
-*   raylib [core] example - Keyboard input(adapted for HTML5 platform)
-*
-*   This example is prepared to compile for PLATFORM_WEB, PLATFORM_DESKTOP and PLATFORM_RPI
-*   As you will notice, code structure is slightly diferent to the other examples...
-*   To compile it for PLATFORM_WEB just uncomment #define PLATFORM_WEB at beginning
+*   raylib [core] example - Keyboard input (adapted for HTML5 platform)
 *
 *   This example has been created using raylib 1.3 (www.raylib.com)
 *   raylib is licensed under an unmodified zlib/libpng license (View raylib.h for details)
@@ -42,7 +38,7 @@ int main()
     //--------------------------------------------------------------------------------------
     InitWindow(screenWidth, screenHeight, "raylib [core] example - keyboard input");
     
-    ballPosition = (Vector2){ screenWidth/2, screenHeight/2 };
+    ballPosition = (Vector2){ (float)screenWidth/2, (float)screenHeight/2 };
     
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -72,10 +68,10 @@ void UpdateDrawFrame(void)
 {
     // Update
     //----------------------------------------------------------------------------------
-    if (IsKeyDown(KEY_RIGHT)) ballPosition.x += 0.8;
-    if (IsKeyDown(KEY_LEFT)) ballPosition.x -= 0.8;
-    if (IsKeyDown(KEY_UP)) ballPosition.y -= 0.8;
-    if (IsKeyDown(KEY_DOWN)) ballPosition.y += 0.8;
+    if (IsKeyDown(KEY_RIGHT)) ballPosition.x += 0.8f;
+    if (IsKeyDown(KEY_LEFT)) ballPosition.x -= 0.8f;
+    if (IsKeyDown(KEY_UP)) ballPosition.y -= 0.8f;
+    if (IsKeyDown(KEY_DOWN)) ballPosition.y += 0.8f;
     //----------------------------------------------------------------------------------
 
     // Draw
