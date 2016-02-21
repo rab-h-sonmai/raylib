@@ -10,8 +10,9 @@
     struct Vector3;     // Vector3 type
     struct Matrix;      // Matrix type (OpenGL style 4x4)
     struct Camera;      // Camera type, defines camera position/orientation
-    struct VertexData;  // Vertex data definning a mesh
+    struct Mesh;  		// Vertex data definning a mesh
     struct Shader;      // Shader type (generic shader)
+	struct Material;	// Material type
     struct Model;       // Basic 3d Model type
     struct Ray;         // Ray type (useful for raycast)
     struct Wave;        // Wave type, defines audio wave data

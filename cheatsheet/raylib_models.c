@@ -17,7 +17,7 @@
     Model LoadModel(const char *fileName);                                                             // Load a 3d model (.OBJ)
     Model LoadModelEx(VertexData data);                                                                // Load a 3d model (from vertex data)
     Model LoadModelFromRES(const char *rresName, int resId);                                           // Load a 3d model from rRES file (raylib Resource)
-    Model LoadHeightmap(Image heightmap, float maxHeight);                                             // Load a heightmap image as a 3d model
+    Model LoadHeightmap(Image heightmap, Vector3 size);                                                // Load a heightmap image as a 3d model
     Model LoadCubicmap(Image cubicmap);                                                                // Load a map image as a 3d model (cubes based)
     void UnloadModel(Model model);                                                                     // Unload 3d model from memory
     void SetModelTexture(Model *model, Texture2D texture);                                             // Link a texture to a model
@@ -25,12 +25,17 @@
     void DrawModel(Model model, Vector3 position, float scale, Color tint);                            // Draw a model (with texture if set)
     void DrawModelEx(Model model, Vector3 position, float rotationAngle, Vector3 rotationAxis, Vector3 scale, Color tint); // Draw a model with extended parameters
     void DrawModelWires(Model model, Vector3 position, float scale, Color color);                      // Draw a model wires (with texture if set)
+	void DrawModelWiresEx(Model model, Vector3 position, Vector3 rotationAxis, float rotationAngle, Vector3 scale, Color tint); // Draw a model wires
 
     void DrawBillboard(Camera camera, Texture2D texture, Vector3 center, float size, Color tint);                          // Draw a billboard texture
     void DrawBillboardRec(Camera camera, Texture2D texture, Rectangle sourceRec, Vector3 center, float size, Color tint);  // Draw a billboard texture defined by sourceRec
 
-    bool CheckCollisionSpheres(Vector3 centerA, float radiusA, Vector3 centerB, float radiusB);                     // Detect collision between two spheres
-    bool CheckCollisionBoxes(Vector3 minBBox1, Vector3 maxBBox1, Vector3 minBBox2, Vector3 maxBBox2);               // Detect collision between two boxes
-    bool CheckCollisionBoxSphere(Vector3 minBBox, Vector3 maxBBox, Vector3 centerSphere, float radiusSphere);       // Detect collision between box and sphere
-    Vector3 ResolveCollisionCubicmap(Image cubicmap, Vector3 mapPosition, Vector3 *playerPosition, float radius);   // Detect collision of player radius with cubicmap
+	BoundingBox CalculateBoundingBox(Mesh mesh);                                                       // Calculate mesh bounding box limits
+	bool CheckCollisionSpheres(Vector3 centerA, float radiusA, Vector3 centerB, float radiusB);                     // Detect collision between two spheres
+	bool CheckCollisionBoxes(Vector3 minBBox1, Vector3 maxBBox1, Vector3 minBBox2, Vector3 maxBBox2);               // Detect collision between two boxes
+	bool CheckCollisionBoxSphere(Vector3 minBBox, Vector3 maxBBox, Vector3 centerSphere, float radiusSphere);       // Detect collision between box and sphere
+	bool CheckCollisionRaySphere(Ray ray, Vector3 spherePosition, float sphereRadius);                              // Detect collision between ray and sphere
+	bool CheckCollisionRaySphereEx(Ray ray, Vector3 spherePosition, float sphereRadius, Vector3 *collisionPoint);   // Detect collision between ray and sphere with extended parameters and collision point detection
+	bool CheckCollisionRayBox(Ray ray, Vector3 minBBox, Vector3 maxBBox);                                           // Detect collision between ray and box
+	Vector3 ResolveCollisionCubicmap(Image cubicmap, Vector3 mapPosition, Vector3 *playerPosition, float radius);   // Detect collision of player radius with cubicmap
     
