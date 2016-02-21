@@ -10,6 +10,6 @@
     Vector2 MeasureTextEx(SpriteFont spriteFont, const char *text, int fontSize, int spacing);         // Measure string size for SpriteFont
 
     void DrawFPS(int posX, int posY);                                                                  // Shows current FPS on top-left corner
-	const char *FormatText(const char *text, ...);                                                     // Formatting of text with variables to 'embed'
-	const char *SubText(const char *text, int position, int length);                                   // Get a piece of a text string
+    const char *FormatText(const char *text, ...);                                                     // Formatting of text with variables to 'embed'
+    const char *SubText(const char *text, int position, int length);                                   // Get a piece of a text string
 

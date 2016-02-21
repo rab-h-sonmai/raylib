@@ -11,15 +11,15 @@
 
     void ClearBackground(Color color);                                      // Sets Background Color
     void BeginDrawing(void);                                                // Setup drawing canvas to start drawing
-	void BeginDrawingEx(int blendMode, Shader shader, Matrix transform);    // Setup drawing canvas with extended parameters
+    void BeginDrawingEx(int blendMode, Shader shader, Matrix transform);    // Setup drawing canvas with extended parameters
     void EndDrawing(void);                                                  // End canvas drawing and Swap Buffers (Double Buffering)
 
     void Begin3dMode(Camera cam);                                           // Initializes 3D mode for drawing (Camera setup)
     void End3dMode(void);                                                   // Ends 3D mode and returns to default 2D orthographic mode
     
     Ray GetMouseRay(Vector2 mousePosition, Camera camera);                  // Returns a ray trace from mouse position
-	Vector2 WorldToScreen(Vector3 position, Camera camera);     			// Returns the screen space position from a 3d world space position
-	Matrix GetCameraMatrix(Camera camera);                      			// Returns camera transform matrix (view matrix)
+    Vector2 WorldToScreen(Vector3 position, Camera camera);                 // Returns the screen space position from a 3d world space position
+    Matrix GetCameraMatrix(Camera camera);                                  // Returns camera transform matrix (view matrix)
 
     // Timming-related functions
     void SetTargetFPS(int fps);                                             // Set target FPS (maximum)
@@ -29,9 +29,9 @@
     // Color-related functions
     Color GetColor(int hexValue);                                           // Returns a Color struct from hexadecimal value
     int GetHexValue(Color color);                                           // Returns hexadecimal value for a Color
-	float *ColorToFloat(Color color);                           			// Converts Color to float array and normalizes
-	float *VectorToFloat(Vector3 vec);                          			// Converts Vector3 to float array
-	float *MatrixToFloat(Matrix mat);                           			// Converts Matrix to float array
+    float *ColorToFloat(Color color);                                       // Converts Color to float array and normalizes
+    float *VectorToFloat(Vector3 vec);                                      // Converts Vector3 to float array
+    float *MatrixToFloat(Matrix mat);                                       // Converts Matrix to float array
 
     // Misc. functions
     int GetRandomValue(int min, int max);                                   // Returns a random value between min and max (both included)
@@ -43,9 +43,9 @@
     bool IsFileDropped(void);                                               // Check if a file have been dropped into window
     char **GetDroppedFiles(int *count);                                     // Retrieve dropped files into window
     void ClearDroppedFiles(void);                                           // Clear dropped files paths buffer
-	
-	void StorageSaveValue(int position, int value);             			// Storage save integer value (to defined position)
-	int StorageLoadValue(int position);                         			// Storage load integer value (from defined position)
+
+    void StorageSaveValue(int position, int value);                         // Storage save integer value (to defined position)
+    int StorageLoadValue(int position);                                     // Storage load integer value (from defined position)
     
     // Input-related functions
     bool IsKeyPressed(int key);                                             // Detect if a key has been pressed once

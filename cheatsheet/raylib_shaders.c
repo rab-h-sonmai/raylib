@@ -11,7 +11,7 @@
     int GetShaderLocation(Shader shader, const char *uniformName);                                      // Get shader uniform location
     void SetShaderValue(Shader shader, int uniformLoc, float *value, int size);                         // Set shader uniform value (float)
     void SetShaderValuei(Shader shader, int uniformLoc, int *value, int size);                          // Set shader uniform value (int)
-	void SetShaderValueMatrix(Shader shader, int uniformLoc, Matrix mat);                   			// Set shader uniform value (matrix 4x4)
+    void SetShaderValueMatrix(Shader shader, int uniformLoc, Matrix mat);                               // Set shader uniform value (matrix 4x4)
     void SetShaderMapDiffuse(Shader *shader, Texture2D texture);                                        // Default diffuse shader map texture assignment
     void SetShaderMapNormal(Shader *shader, const char *uniformName, Texture2D texture);                // Normal map texture shader assignment
     void SetShaderMapSpecular(Shader *shader, const char *uniformName, Texture2D texture);              // Specular map texture shader assignment
