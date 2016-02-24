@@ -21,8 +21,8 @@
 //----------------------------------------------------------------------------------
 // Global Variables Definition
 //----------------------------------------------------------------------------------
-int screenWidth = 800;
-int screenHeight = 450;
+const int screenWidth = 800;
+const int screenHeight = 450;
 
 Vector2 touchPosition;
 Rectangle touchArea;
@@ -55,7 +55,7 @@ int main()
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
-    SetTargetFPS(30);   // Set our game to run at 60 frames-per-second
+    SetTargetFPS(60);   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
     
     // Main game loop
@@ -81,7 +81,7 @@ void UpdateDrawFrame(void)
     // Update
         //----------------------------------------------------------------------------------
         lastGesture = currentGesture;
-        touchPosition = GetTouchPosition(0);
+        touchPosition = GetMousePosition(); // TODO: GetTouchPosition(0);
         
         if (CheckCollisionPointRec(touchPosition, touchArea) &&  IsGestureDetected())
         {
@@ -100,6 +100,8 @@ void UpdateDrawFrame(void)
                     case GESTURE_SWIPE_LEFT: strcpy(gestureStrings[gesturesCount], "GESTURE SWIPE LEFT"); break;
                     case GESTURE_SWIPE_UP: strcpy(gestureStrings[gesturesCount], "GESTURE SWIPE UP"); break;
                     case GESTURE_SWIPE_DOWN: strcpy(gestureStrings[gesturesCount], "GESTURE SWIPE DOWN"); break;
+                    case GESTURE_PINCH_IN: strcpy(gestureStrings[gesturesCount], "GESTURE PINCH IN"); break;
+                    case GESTURE_PINCH_OUT: strcpy(gestureStrings[gesturesCount], "GESTURE PINCH OUT"); break;
                     default: break;
                 }
                 
