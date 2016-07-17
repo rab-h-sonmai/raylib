@@ -22,7 +22,7 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 Vector2 ballPosition = { -100.0f, -100.0f };
-
+Color ballColor = MAROON;
 
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
@@ -66,10 +66,11 @@ void UpdateDrawFrame(void)
 {
     // Update
     //----------------------------------------------------------------------------------
-    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
-    {
-        ballPosition = GetMousePosition();
-    }
+    ballPosition = GetMousePosition();
+        
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON)) ballColor = MAROON;
+    else if (IsMouseButtonPressed(MOUSE_MIDDLE_BUTTON)) ballColor = LIME;
+    else if (IsMouseButtonPressed(MOUSE_RIGHT_BUTTON)) ballColor = DARKBLUE;
     //----------------------------------------------------------------------------------
 
     // Draw
@@ -78,9 +79,9 @@ void UpdateDrawFrame(void)
 
         ClearBackground(RAYWHITE);
 
-        DrawCircleV(ballPosition, 40, GOLD);
+        DrawCircleV(ballPosition, 40, ballColor);
 
-        DrawText("mouse click to draw the ball", 10, 10, 20, DARKGRAY);
+        DrawText("move ball with mouse and click mouse button to change color", 10, 10, 20, DARKGRAY);
 
     EndDrawing();
     //----------------------------------------------------------------------------------

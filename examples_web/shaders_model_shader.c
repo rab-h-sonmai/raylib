@@ -29,7 +29,7 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 // Define the camera to look into our 3d world
-Camera camera = {{ 3.0f, 3.0f, 3.0f }, { 0.0f, 1.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
+Camera camera = {{ 3.0f, 3.0f, 3.0f }, { 0.0f, 1.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }, 45.0f };
 
 Model dwarf;         // OBJ model
 Texture2D texture;   // Model texture
@@ -52,13 +52,13 @@ int main()
     SetConfigFlags(FLAG_MSAA_4X_HINT);      // Enable Multi Sampling Anti Aliasing 4x (if available)
     InitWindow(screenWidth, screenHeight, "raylib [shaders] example - model shader");
 
-    dwarf = LoadModel("resources/model/dwarf.obj");                   // Load OBJ model
-    texture = LoadTexture("resources/model/dwarf_diffuse.png");   // Load model texture
-    shader = LoadShader("resources/shaders/base.vs", 
-                               "resources/shaders/grayscale.fs");           // Load model shader
+    dwarf = LoadModel("resources/model/dwarf.obj");                  // Load OBJ model
+    texture = LoadTexture("resources/model/dwarf_diffuse.png");      // Load model texture
+    shader = LoadShader("resources/shaders/glsl100/base.vs", 
+                        "resources/shaders/glsl100/grayscale.fs");   // Load model shader
 
-    SetModelShader(&dwarf, shader);         // Set shader effect to 3d model
-    SetModelTexture(&dwarf, texture);       // Bind texture to model
+    dwarf.material.shader = shader;            // Set shader effect to 3d model
+    dwarf.material.texDiffuse = texture;       // Bind texture to model
 
     // Setup orbital camera
     SetCameraMode(CAMERA_ORBITAL);          // Set an orbital camera mode

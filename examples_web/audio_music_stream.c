@@ -42,9 +42,7 @@ int main()
     
     InitAudioDevice();              // Initialize audio device
 
-    PlayMusicStream("resources/audio/guitar_noodling.ogg");         // Play music stream
-    
-    
+    PlayMusicStream(0, "resources/audio/guitar_noodling.ogg");         // Play music stream
     
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -89,19 +87,19 @@ void UpdateDrawFrame(void)
             {
                 volume = 1.0;
                 framesCounter = 0;
-                PlayMusicStream("resources/audio/another_file.ogg");
+                PlayMusicStream(1, "resources/audio/another_file.ogg");
             }
 
             SetMusicVolume(volume);
         }
 */
     
-    if (IsWindowMinimized()) PauseMusicStream();
-    else ResumeMusicStream();
+    if (IsWindowMinimized()) PauseMusicStream(0);
+    else ResumeMusicStream(0);
 
-    timePlayed = GetMusicTimePlayed()/GetMusicTimeLength()*100*4; // We scale by 4 to fit 400 pixels
+    timePlayed = GetMusicTimePlayed(0)/GetMusicTimeLength(0)*100*4; // We scale by 4 to fit 400 pixels
     
-    UpdateMusicStream();        // Update music buffer with new stream data
+    UpdateMusicStream(0);        // Update music buffer with new stream data
     //----------------------------------------------------------------------------------
 
     // Draw

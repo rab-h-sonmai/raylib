@@ -60389,47 +60389,57 @@ _˙É¿i
 Ä≈Æ¸3Ä”V ´…ÍöZˇŒîÃ_ò|F^
 "˛ˇG|:É¿È+Ä’¡†ΩÙÌ%œ‡ÛÒ∫ êˇ2”?É¡`∞ òãXVW’;ﬂ.ÒŸx˝ Ó|*É¿‹R √·üã◊ä’éª√Ùœ`0, Nü˘O¶ :C>!É¡`W• É¡`W∆ˇX `!¿`0 É¡`0X 0É¡`¿`0É É¡`0 É¡`0X 0É¡`¿`0É É¡`0 É¡`0X 0É¡`¿`0É É¡`0ı¯ )S/{û≥u·    IENDÆB`Ç#version 100
 
+// Input vertex attributes
 attribute vec3 vertexPosition;
 attribute vec2 vertexTexCoord;
 attribute vec3 vertexNormal;
+attribute vec4 vertexColor;
 
-varying vec2 fragTexCoord;
-
+// Input uniform values
 uniform mat4 mvpMatrix;
+
+// Output vertex attributes (to fragment shader)
+varying vec2 fragTexCoord;
+varying vec4 fragColor;
 
 // NOTE: Add here your custom variables 
 
 void main()
 {
-    vec3 normal = vertexNormal;
-    
+    // Send vertex attributes to fragment shader
     fragTexCoord = vertexTexCoord;
+    fragColor = vertexColor;
     
+    // Calculate final vertex position
     gl_Position = mvpMatrix*vec4(vertexPosition, 1.0);
 }#version 100
 
 precision mediump float;
 
+// Input vertex attributes (from vertex shader)
 varying vec2 fragTexCoord;
+varying vec4 fragColor;
 
+// Input uniform values
 uniform sampler2D texture0;
-uniform vec4 fragTintColor;
+uniform vec4 colDiffuse;
 
 // NOTE: Add here your custom variables
 
 const float renderWidth = 800.0;      // HARDCODED for example!
-const float renderHeight = 450.0;     // Use uniforms instead...
+const float renderHeight = 480.0;     // Use uniforms instead...
 
 float radius = 250.0;
 float angle = 0.8;
 
-uniform vec2 center;
+uniform vec2 center;// = vec2(200.0, 200.0);
 
-void main (void)
+void main()
 {
     vec2 texSize = vec2(renderWidth, renderHeight);
     vec2 tc = fragTexCoord*texSize;
     tc -= center;
+    
     float dist = length(tc);
 
     if (dist < radius) 
@@ -60443,7 +60453,7 @@ void main (void)
     }
 
     tc += center;
-    vec3 color = texture2D(texture0, tc/texSize).rgb;
+    vec4 color = texture2D(texture0, tc/texSize)*colDiffuse*fragColor;;
 
-    gl_FragColor = vec4(color, 1.0);;
+    gl_FragColor = vec4(color.rgb, 1.0);;
 }

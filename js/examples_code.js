@@ -18,6 +18,9 @@ $(document).ready(function() {
         'core_3d_picking',
         'core_3d_camera_free',
         'core_3d_camera_first_person',
+        'core_2d_camera',
+        'core_world_screen',
+        'core_oculus_rift',
         'shapes_logo_raylib',
         'shapes_basic_shapes',
         'shapes_colors_palette',
@@ -48,8 +51,10 @@ $(document).ready(function() {
         'shaders_shapes_textures',
         'shaders_custom_uniform',
         'shaders_postprocessing',
+        'shaders_standard_lighting',
         'audio_sound_loading',
-        'audio_music_stream'];
+        'audio_music_stream',
+        'audio_module_playing'];
 
     var exampleDesc = [
         'basic window',
@@ -66,6 +71,9 @@ $(document).ready(function() {
         '3d picking',
         '3d camera free',
         '3d camera first person',
+        '2d camera',
+        'world screen',
+        'oculus rift',
         'logo raylib shapes',
         'basic shapes',
         'colors palette',
@@ -96,8 +104,10 @@ $(document).ready(function() {
         'shapes textures shader',
         'custom uniform in shaders',
         'postprocessing shaders',
+        'standard lighting',
         'sound loading',
-        'music streaming'];
+        'music streaming',
+        'module playing'];
 
     for (var i = 0; i < exampleName.length; i++)
     {

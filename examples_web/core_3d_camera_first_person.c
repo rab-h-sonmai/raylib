@@ -23,9 +23,8 @@
 int screenWidth = 800;
 int screenHeight = 450;
 
-//Camera camera;
-// Define the camera to look into our 3d world
-Camera camera = {{ 0.0f, 10.0f, 10.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
+// Define the camera to look into our 3d world (position, target, up vector)
+Camera camera = {{ 0.0f, 10.0f, 10.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, 60.0f };
 
 // Generates some random columns
 float heights[MAX_COLUMNS];
@@ -58,13 +57,12 @@ int main()
     }
     
     SetCameraMode(CAMERA_FIRST_PERSON);         // Set a first person camera mode
-
-    SetTargetFPS(60);                           // Set our game to run at 60 frames-per-second
-    
-    
+    SetCameraFovy(camera.fovy);                 // Set internal camera field-of-view Y
+	
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
 #else
+
     SetTargetFPS(60);   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
     
@@ -113,11 +111,14 @@ void UpdateDrawFrame(void)
                 DrawCubeWires(positions[i], 2.0f, heights[i], 2.0f, MAROON);
             }
 
-        End3dMode();
+            End3dMode();
+            
+        DrawRectangle( 10, 10, 220, 70, Fade(SKYBLUE, 0.5f));
+        DrawRectangleLines( 10, 10, 220, 70, BLUE);
 
-        DrawText("First person camera default controls:", 20, 20, 10, GRAY);
-        DrawText("- Move with keys: W, A, S, D", 40, 50, 10, DARKGRAY);
-        DrawText("- Mouse move to look around", 40, 70, 10, DARKGRAY);
+        DrawText("First person camera default controls:", 20, 20, 10, BLACK);
+        DrawText("- Move with keys: W, A, S, D", 40, 40, 10, DARKGRAY);
+        DrawText("- Mouse move to look around", 40, 60, 10, DARKGRAY);
 
 
     EndDrawing();

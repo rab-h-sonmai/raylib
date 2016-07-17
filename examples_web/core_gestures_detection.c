@@ -21,8 +21,8 @@
 //----------------------------------------------------------------------------------
 // Global Variables Definition
 //----------------------------------------------------------------------------------
-const int screenWidth = 800;
-const int screenHeight = 450;
+int screenWidth = 800;
+int screenHeight = 450;
 
 Vector2 touchPosition;
 Rectangle touchArea;
@@ -81,12 +81,11 @@ void UpdateDrawFrame(void)
     // Update
         //----------------------------------------------------------------------------------
         lastGesture = currentGesture;
-        touchPosition = GetMousePosition(); // TODO: GetTouchPosition(0);
-        
-        if (CheckCollisionPointRec(touchPosition, touchArea) &&  IsGestureDetected())
+        currentGesture = GetGestureDetected();
+        touchPosition = GetTouchPosition(0);
+
+        if (CheckCollisionPointRec(touchPosition, touchArea) && (currentGesture != GESTURE_NONE))
         {
-            currentGesture = GetGestureType();
-            
             if (currentGesture != lastGesture)
             {
                 // Store gesture string
@@ -116,7 +115,6 @@ void UpdateDrawFrame(void)
                 }
             }
         }
-        else currentGesture = GESTURE_NONE;
         //----------------------------------------------------------------------------------
 
         // Draw

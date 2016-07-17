@@ -21,7 +21,7 @@ int main()
     InitWindow(screenWidth, screenHeight, "raylib [models] example - cubesmap loading and drawing");
 
     // Define the camera to look into our 3d world
-    Camera camera = {{ 16.0, 14.0, 16.0 }, { 0.0, 0.0, 0.0 }, { 0.0, 1.0, 0.0 }};
+    Camera camera = {{ 16.0f, 14.0f, 16.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, 45.0f };
 
     Image image = LoadImage("resources/cubicmap.png");      // Load cubicmap image (RAM)
     Texture2D cubicmap = LoadTextureFromImage(image);       // Convert image to texture to display (VRAM)
@@ -29,14 +29,15 @@ int main()
     
     // NOTE: By default each cube is mapped to one part of texture atlas
     Texture2D texture = LoadTexture("resources/cubicmap_atlas.png");    // Load map texture
-    SetModelTexture(&map, texture);                         // Bind texture to map model
+    map.material.texDiffuse = texture;                      // Set map diffuse texture
     
-    Vector3 mapPosition = { -16, 0.0, -8 };                 // Set model position
+    Vector3 mapPosition = { -16.0f, 0.0f, -8.0f };          // Set model position
 
     UnloadImage(image);     // Unload cubesmap image from RAM, already uploaded to VRAM
     
     SetCameraMode(CAMERA_ORBITAL);      // Set an orbital camera mode
     SetCameraPosition(camera.position); // Set internal camera position to match our custom camera position
+    SetCameraFovy(camera.fovy);         // Set internal camera field-of-view Y
 
     SetTargetFPS(60);                   // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------

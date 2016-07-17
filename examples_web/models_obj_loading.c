@@ -22,7 +22,7 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 // Define the camera to look into our 3d world
-Camera camera = {{ 3.0f, 3.0f, 3.0f }, { 0.0f, 1.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
+Camera camera = {{ 3.0f, 3.0f, 3.0f }, { 0.0f, 1.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }, 45.0f };
 
 Model dwarf;        // Declare OBJ model
 Texture2D texture;  // Declare model texture
@@ -45,8 +45,7 @@ int main()
 
     dwarf = LoadModel("resources/model/dwarf.obj");               // Load OBJ model
     texture = LoadTexture("resources/model/dwarf_diffuse.png");   // Load model texture
-    
-    SetModelTexture(&dwarf, texture);                             // Bind texture to model
+    dwarf.material.texDiffuse = texture;                          // Set dwarf model diffuse texture
 
 #if defined(PLATFORM_WEB)
     emscripten_set_main_loop(UpdateDrawFrame, 0, 1);
@@ -92,7 +91,7 @@ void UpdateDrawFrame(void)
 
             DrawModel(dwarf, position, 2.0f, WHITE);   // Draw 3d model with texture
 
-            DrawGrid(10, 1.0f);        // Draw a grid
+            DrawGrid(10, 1.0f);         // Draw a grid
 
             DrawGizmo(position);        // Draw gizmo
 

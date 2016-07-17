@@ -22,7 +22,7 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 // Define the camera to look into our 3d world
-Camera camera = {{ 16.0f, 14.0f, 16.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
+Camera camera = {{ 16.0f, 14.0f, 16.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, 45.0f };
 
 Texture2D cubicmap;
 Model map;
@@ -49,7 +49,7 @@ int main()
     
     // NOTE: By default each cube is mapped to one part of texture atlas
     Texture2D texture = LoadTexture("resources/cubicmap_atlas.png");    // Load map texture
-    SetModelTexture(&map, texture);                         // Bind texture to map model
+    map.material.texDiffuse = texture;                  // Set map diffuse texture
 
     UnloadImage(image);     // Unload cubesmap image from RAM, already uploaded to VRAM
     

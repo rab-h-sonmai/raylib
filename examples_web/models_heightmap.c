@@ -22,7 +22,7 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 // Define our custom camera to look into our 3d world
-Camera camera = {{ 18.0f, 16.0f, 18.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
+Camera camera = {{ 18.0f, 16.0f, 18.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 1.0f, 0.0f }, 45.0f };
 
 Texture2D texture;
 Model map;
@@ -43,10 +43,10 @@ int main()
     //--------------------------------------------------------------------------------------
     InitWindow(screenWidth, screenHeight, "raylib [models] example - heightmap loading and drawing");
 
-    Image image = LoadImage("resources/heightmap.png"); // Load heightmap image (RAM)
-    texture = LoadTextureFromImage(image);              // Convert image to texture (VRAM)
-    map = LoadHeightmap(image, (Vector3){ 16, 8, 16 }); // Load heightmap model with defined size
-    SetModelTexture(&map, texture);                     // Bind texture to model
+    Image image = LoadImage("resources/heightmap.png");     // Load heightmap image (RAM)
+    texture = LoadTextureFromImage(image);                  // Convert image to texture (VRAM)
+    map = LoadHeightmap(image, (Vector3){ 16, 8, 16 });     // Load heightmap model with defined size
+    map.material.texDiffuse = texture;                      // Set map diffuse texture
 
     UnloadImage(image);                 // Unload heightmap image from RAM, already uploaded to VRAM
     

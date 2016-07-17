@@ -23,8 +23,8 @@ int main()
 
     InitWindow(screenWidth, screenHeight, "raylib [core] example - gamepad input");
 
-    Vector2 ballPosition = { screenWidth/2, screenHeight/2 };
-    Vector2 gamepadMovement = { 0, 0 };
+    Vector2 ballPosition = { (float)screenWidth/2, (float)screenHeight/2 };
+    Vector2 gamepadMovement = { 0.0f, 0.0f };
 
     SetTargetFPS(60);               // Set target frames-per-second
     //--------------------------------------------------------------------------------------
@@ -36,15 +36,16 @@ int main()
         //----------------------------------------------------------------------------------
         if (IsGamepadAvailable(GAMEPAD_PLAYER1))
         {
-            gamepadMovement = GetGamepadMovement(GAMEPAD_PLAYER1);
+            gamepadMovement.x = GetGamepadAxisMovement(GAMEPAD_PLAYER1, GAMEPAD_XBOX_AXIS_LEFT_X);
+            gamepadMovement.y = GetGamepadAxisMovement(GAMEPAD_PLAYER1, GAMEPAD_XBOX_AXIS_LEFT_Y);
 
             ballPosition.x += gamepadMovement.x;
             ballPosition.y -= gamepadMovement.y;
 
             if (IsGamepadButtonPressed(GAMEPAD_PLAYER1, GAMEPAD_BUTTON_A))
             {
-                ballPosition.x = screenWidth/2;
-                ballPosition.y = screenHeight/2;
+                ballPosition.x = (float)screenWidth/2;
+                ballPosition.y = (float)screenHeight/2;
             }
         }
         //----------------------------------------------------------------------------------

@@ -29,7 +29,7 @@ int screenWidth = 800;
 int screenHeight = 450;
 
 // Define the camera to look into our 3d world
-Camera camera = {{ 3.0f, 3.0f, 3.0f }, { 0.0f, 1.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }};
+Camera camera = {{ 3.0f, 3.0f, 3.0f }, { 0.0f, 1.5f, 0.0f }, { 0.0f, 1.0f, 0.0f }, 45.0f };
 
 Model dwarf;         // OBJ model
 Texture2D texture;   // Model texture
@@ -39,6 +39,8 @@ Vector3 position = { 0.0f, 0.0f, 0.0f };  // Set model position
 
 int swirlCenterLoc;
 float swirlCenter[2];
+
+RenderTexture2D target;
 
 //----------------------------------------------------------------------------------
 // Module Functions Declaration
@@ -55,12 +57,12 @@ int main()
     SetConfigFlags(FLAG_MSAA_4X_HINT);      // Enable Multi Sampling Anti Aliasing 4x (if available)
     InitWindow(screenWidth, screenHeight, "raylib [shaders] example - custom uniform variable");
 
-    dwarf = LoadModel("resources/model/dwarf.obj");                   // Load OBJ model
+    dwarf = LoadModel("resources/model/dwarf.obj");               // Load OBJ model
     texture = LoadTexture("resources/model/dwarf_diffuse.png");   // Load model texture
-    SetModelTexture(&dwarf, texture);                                       // Bind texture to model
+    dwarf.material.texDiffuse = texture;                          // Set dwarf model diffuse texture
 
-    shader = LoadShader("resources/shaders/base.vs",
-						"resources/shaders/swirl.fs");               // Load postpro shader
+    shader = LoadShader("resources/shaders/glsl100/base.vs", 
+                        "resources/shaders/glsl100/swirl.fs");    // Load postpro shader
     
     // Get variable (uniform) location on the shader to connect with the program
     // NOTE: If uniform variable could not be found in the shader, function returns -1
@@ -68,8 +70,9 @@ int main()
     
     swirlCenter[0] = (float)screenWidth/2;
     swirlCenter[1] = (float)screenHeight/2;
-    
-    SetPostproShader(shader);               // Set fullscreen postprocessing shader
+
+    // Create a RenderTexture2D to be used for render to texture
+    target = LoadRenderTexture(screenWidth, screenHeight);
     
     // Setup orbital camera
     SetCameraMode(CAMERA_ORBITAL);          // Set an orbital camera mode
@@ -115,7 +118,7 @@ void UpdateDrawFrame(void)
 
     // Send new value to the shader to be used on drawing
     SetShaderValue(shader, swirlCenterLoc, swirlCenter, 2);
-    
+
     UpdateCamera(&camera);              // Update internal camera and our camera
     //----------------------------------------------------------------------------------
 
@@ -125,17 +128,30 @@ void UpdateDrawFrame(void)
 
         ClearBackground(RAYWHITE);
 
-        Begin3dMode(camera);
+            BeginTextureMode(target);   // Enable drawing to texture
 
-            DrawModel(dwarf, position, 2.0f, WHITE);   // Draw 3d model with texture
+                Begin3dMode(camera);
 
-            DrawGrid(10, 1.0f);     // Draw a grid
+                    DrawModel(dwarf, position, 2.0f, WHITE);   // Draw 3d model with texture
 
-        End3dMode();
-        
-        DrawText("(c) Dwarf 3D model by David Moreno", screenWidth - 200, screenHeight - 20, 10, GRAY);
+                    DrawGrid(10, 1.0f);     // Draw a grid
 
-        DrawFPS(10, 10);
+                End3dMode();
+                
+                DrawText("TEXT DRAWN IN RENDER TEXTURE", 200, 10, 30, RED);
+            
+            EndTextureMode();           // End drawing to texture (now we have a texture available for next passes)
+            
+            BeginShaderMode(shader);
+            
+                // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
+                DrawTextureRec(target.texture, (Rectangle){ 0, 0, target.texture.width, -target.texture.height }, (Vector2){ 0, 0 }, WHITE);
+            
+            EndShaderMode();
+            
+            DrawText("(c) Dwarf 3D model by David Moreno", screenWidth - 200, screenHeight - 20, 10, GRAY);
+
+            DrawFPS(10, 10);
 
     EndDrawing();
     //----------------------------------------------------------------------------------
