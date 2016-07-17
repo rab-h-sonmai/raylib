@@ -7,8 +7,10 @@
     Texture2D LoadTextureEx(void *data, int width, int height, int textureFormat, int mipmapCount);    // Load a texture from raw data into GPU memory
     Texture2D LoadTextureFromRES(const char *rresName, int resId);                                     // Load an image as texture from rRES file (raylib Resource)
     Texture2D LoadTextureFromImage(Image image);                                                       // Load a texture from image data
+    RenderTexture2D LoadRenderTexture(int width, int height);                                          // Load a texture to be used for rendering
     void UnloadImage(Image image);                                                                     // Unload image from CPU memory (RAM)
     void UnloadTexture(Texture2D texture);                                                             // Unload texture from GPU memory
+    void UnloadRenderTexture(RenderTexture2D target);                                                  // Unload render texture from GPU memory
     Color *GetImageData(Image image);                                                                  // Get pixel data from image as a Color struct array
     Image GetTextureData(Texture2D texture);                                                           // Get pixel data from GPU texture and return an Image
     void ImageToPOT(Image *image, Color fillColor);                                                    // Convert image to POT (power-of-two)
@@ -17,9 +19,12 @@
     Image ImageCopy(Image image);                                                                      // Create an image duplicate (useful for transformations)
     void ImageCrop(Image *image, Rectangle crop);                                                      // Crop an image to a defined rectangle
     void ImageResize(Image *image, int newWidth, int newHeight);                                       // Resize and image (bilinear filtering)
-    void ImageDraw(Image *dst, Image src, Rectangle srcRec, Rectangle dstRec);                         // Draw a source image within a destination image
+    void ImageResizeNN(Image *image,int newWidth,int newHeight);                                       // Resize and image (Nearest-Neighbor scaling algorithm)
     Image ImageText(const char *text, int fontSize, Color color);                                      // Create an image from text (default font)
     Image ImageTextEx(SpriteFont font, const char *text, int fontSize, int spacing, Color tint);       // Create an image from text (custom sprite font)
+    void ImageDraw(Image *dst, Image src, Rectangle srcRec, Rectangle dstRec);                         // Draw a source image within a destination image
+    void ImageDrawText(Image *dst, Vector2 position, const char *text, int fontSize, Color color);     // Draw text (default font) within an image (destination)
+    void ImageDrawTextEx(Image *dst, Vector2 position, SpriteFont font, const char *text, int fontSize, int spacing, Color color); // Draw text (custom sprite font) within image
     void ImageFlipVertical(Image *image);                                                              // Flip image vertically
     void ImageFlipHorizontal(Image *image);                                                            // Flip image horizontally
     void ImageColorTint(Image *image, Color color);                                                    // Modify image color: tint

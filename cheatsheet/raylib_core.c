@@ -1,21 +1,31 @@
 
+    // Window-related functions
     void InitWindow(int width, int height, char* title);                    // Initialize Window and Graphics Context (OpenGL)
     void CloseWindow(void);                                                 // Close Window and Terminate Context
     bool WindowShouldClose(void);                                           // Detect if KEY_ESCAPE pressed or Close icon pressed
     bool IsWindowMinimized(void);                                           // Detect if window has been minimized (or lost focus)
     void ToggleFullscreen(void);                                            // Fullscreen toggle (by default F11)
-    void SetCustomCursor(const char *cursorImage);                          // Set a custom cursor icon/image
-    void SetExitKey(int key);                                               // Set a custom key to exit program (default is ESC)
     int GetScreenWidth(void);                                               // Get current screen width
     int GetScreenHeight(void);                                              // Get current screen height
+    
+    // Cursor-related functions
+    void ShowCursor(void);                                                  // Shows cursor
+    void HideCursor(void);                                                  // Hides cursor
+    bool IsCursorHidden(void);                                              // Returns true if cursor is not visible
+    void EnableCursor(void);                                                // Enables cursor
+    void DisableCursor(void);                                               // Disables cursor
 
+    // Drawing-related functions
     void ClearBackground(Color color);                                      // Sets Background Color
     void BeginDrawing(void);                                                // Setup drawing canvas to start drawing
-    void BeginDrawingEx(int blendMode, Shader shader, Matrix transform);    // Setup drawing canvas with extended parameters
     void EndDrawing(void);                                                  // End canvas drawing and Swap Buffers (Double Buffering)
 
-    void Begin3dMode(Camera cam);                                           // Initializes 3D mode for drawing (Camera setup)
+    void Begin2dMode(Camera2D camera);                                      // Initialize 2D mode with custom camera
+    void End2dMode(void);                                                   // Ends 2D mode custom camera usage
+    void Begin3dMode(Camera camera);                                        // Initializes 3D mode for drawing (Camera setup)
     void End3dMode(void);                                                   // Ends 3D mode and returns to default 2D orthographic mode
+    void BeginTextureMode(RenderTexture2D target);                          // Initializes render texture for drawing
+    void EndTextureMode(void);                                              // Ends drawing to render texture
     
     Ray GetMouseRay(Vector2 mousePosition, Camera camera);                  // Returns a ray trace from mouse position
     Vector2 WorldToScreen(Vector3 position, Camera camera);                 // Returns the screen space position from a 3d world space position
@@ -52,6 +62,8 @@
     bool IsKeyDown(int key);                                                // Detect if a key is being pressed
     bool IsKeyReleased(int key);                                            // Detect if a key has been released once
     bool IsKeyUp(int key);                                                  // Detect if a key is NOT being pressed
+    int GetKeyPressed(void);                                                // Get latest key pressed
+    void SetExitKey(int key);                                               // Set a custom key to exit program (default is ESC)
 
     bool IsMouseButtonPressed(int button);                                  // Detect if a mouse button has been pressed once
     bool IsMouseButtonDown(int button);                                     // Detect if a mouse button is being pressed
@@ -68,7 +80,7 @@
     bool IsCursorHidden(void);                                              // Check if cursor is not visible
 
     bool IsGamepadAvailable(int gamepad);                                   // Detect if a gamepad is available
-    Vector2 GetGamepadMovement(int gamepad);                                // Return axis movement vector for a gamepad
+    float GetGamepadAxisMovement(int gamepad, int axis);                    // Return axis movement value for a gamepad axis
     bool IsGamepadButtonPressed(int gamepad, int button);                   // Detect if a gamepad button has been pressed once
     bool IsGamepadButtonDown(int gamepad, int button);                      // Detect if a gamepad button is being pressed
     bool IsGamepadButtonReleased(int gamepad, int button);                  // Detect if a gamepad button has been released once
@@ -77,4 +89,17 @@
     int GetTouchX(void);                                                    // Returns touch position X (relative to screen size)
     int GetTouchY(void);                                                    // Returns touch position Y (relative to screen size)
     Vector2 GetTouchPosition(void);                                         // Returns touch position XY (relative to screen size)
+    
+    // Gestures-related functions
+    void SetGesturesEnabled(unsigned int gestureFlags);                     // Enable a set of gestures using flags
+    bool IsGestureDetected(int gesture);                                    // Check if a gesture have been detected
+    int GetGestureDetected(void);                                           // Get latest detected gesture
+    
+    // Camera-related functions
+    void SetCameraMode(int mode);                                           // Set camera mode (multiple camera modes available)
+    void UpdateCamera(Camera *camera);                                      // Update camera (player position is ignored)
+    void UpdateCameraPlayer(Camera *camera, Vector3 *position);             // Update camera and player position (1st person and 3rd person cameras)
+    void SetCameraPosition(Vector3 position);                               // Set internal camera position
+    void SetCameraTarget(Vector3 target);                                   // Set internal camera target
+    void SetCameraFovy(float fovy);                                         // Set internal camera field-of-view-y
 
