@@ -3,7 +3,7 @@
     void UnloadShader(Shader shader);                                                                   // Unload a custom shader from memory
 
     Shader GetDefaultShader(void);                                                                      // Get default shader
-    Shader GetStandardShader(void);                                                                     // Get default shader
+    Shader GetStandardShader(void);                                                                     // Get standard shader
     Texture2D GetDefaultTexture(void);                                                                  // Get default texture
 
     int GetShaderLocation(Shader shader, const char *uniformName);                                      // Get shader uniform location
@@ -19,7 +19,7 @@
     void BeginBlendMode(int mode);                                                                      // Begin blending mode (alpha, additive, multiplied)
     void EndBlendMode(void);                                                                            // End blending mode (reset to default: alpha blending)
     
-    void InitVrDevice(int hmdDevice);                                                                   // Init VR device
+    void InitVrDevice(int vrDevice);                                                                    // Init VR device
     void CloseVrDevice(void);                                                                           // Close VR device
     void UpdateVrTracking(void);                                                                        // Update VR tracking (position and orientation)
     void BeginVrDrawing(void);                                                                          // Begin VR drawing configuration

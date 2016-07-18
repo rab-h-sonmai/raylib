@@ -28,7 +28,7 @@
     void EndTextureMode(void);                                              // Ends drawing to render texture
     
     Ray GetMouseRay(Vector2 mousePosition, Camera camera);                  // Returns a ray trace from mouse position
-    Vector2 WorldToScreen(Vector3 position, Camera camera);                 // Returns the screen space position from a 3d world space position
+    Vector2 GetWorldToScreen(Vector3 position, Camera camera);              // Returns the screen space position from a 3d world space position
     Matrix GetCameraMatrix(Camera camera);                                  // Returns camera transform matrix (view matrix)
 
     // Timming-related functions
@@ -74,10 +74,6 @@
     Vector2 GetMousePosition(void);                                         // Returns mouse position XY
     void SetMousePosition(Vector2 position);                                // Set mouse position XY
     int GetMouseWheelMove(void);                                            // Returns mouse wheel movement Y
-    
-    void ShowCursor(void);                                                  // Shows cursor
-    void HideCursor(void);                                                  // Hides cursor
-    bool IsCursorHidden(void);                                              // Check if cursor is not visible
 
     bool IsGamepadAvailable(int gamepad);                                   // Detect if a gamepad is available
     float GetGamepadAxisMovement(int gamepad, int axis);                    // Return axis movement value for a gamepad axis
