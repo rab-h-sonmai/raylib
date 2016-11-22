@@ -54,10 +54,11 @@
     char **GetDroppedFiles(int *count);                                     // Retrieve dropped files into window
     void ClearDroppedFiles(void);                                           // Clear dropped files paths buffer
 
+    // Persistent storage management
     void StorageSaveValue(int position, int value);                         // Storage save integer value (to defined position)
     int StorageLoadValue(int position);                                     // Storage load integer value (from defined position)
     
-    // Input-related functions
+    // Input-related functions: keyboard
     bool IsKeyPressed(int key);                                             // Detect if a key has been pressed once
     bool IsKeyDown(int key);                                                // Detect if a key is being pressed
     bool IsKeyReleased(int key);                                            // Detect if a key has been released once
@@ -65,6 +66,19 @@
     int GetKeyPressed(void);                                                // Get latest key pressed
     void SetExitKey(int key);                                               // Set a custom key to exit program (default is ESC)
 
+    // Input-related functions: gamepads
+    bool IsGamepadAvailable(int gamepad);                                   // Detect if a gamepad is available
+    bool IsGamepadName(int gamepad, const char *name);                      // Check gamepad name (if available)
+    const char *GetGamepadName(int gamepad);                                // Return gamepad internal name id
+    bool IsGamepadButtonPressed(int gamepad, int button);                   // Detect if a gamepad button has been pressed once
+    bool IsGamepadButtonDown(int gamepad, int button);                      // Detect if a gamepad button is being pressed
+    bool IsGamepadButtonReleased(int gamepad, int button);                  // Detect if a gamepad button has been released once
+    bool IsGamepadButtonUp(int gamepad, int button);                        // Detect if a gamepad button is NOT being pressed
+    int GetGamepadButtonPressed(void);                                      // Get the last gamepad button pressed
+    int GetGamepadAxisCount(int gamepad);                                   // Return gamepad axis count for a gamepad
+    float GetGamepadAxisMovement(int gamepad, int axis);                    // Return axis movement value for a gamepad axis
+
+    // Input-related functions: mouse
     bool IsMouseButtonPressed(int button);                                  // Detect if a mouse button has been pressed once
     bool IsMouseButtonDown(int button);                                     // Detect if a mouse button is being pressed
     bool IsMouseButtonReleased(int button);                                 // Detect if a mouse button has been released once
@@ -75,27 +89,30 @@
     void SetMousePosition(Vector2 position);                                // Set mouse position XY
     int GetMouseWheelMove(void);                                            // Returns mouse wheel movement Y
 
-    bool IsGamepadAvailable(int gamepad);                                   // Detect if a gamepad is available
-    float GetGamepadAxisMovement(int gamepad, int axis);                    // Return axis movement value for a gamepad axis
-    bool IsGamepadButtonPressed(int gamepad, int button);                   // Detect if a gamepad button has been pressed once
-    bool IsGamepadButtonDown(int gamepad, int button);                      // Detect if a gamepad button is being pressed
-    bool IsGamepadButtonReleased(int gamepad, int button);                  // Detect if a gamepad button has been released once
-    bool IsGamepadButtonUp(int gamepad, int button);                        // Detect if a gamepad button is NOT being pressed
-    
-    int GetTouchX(void);                                                    // Returns touch position X (relative to screen size)
-    int GetTouchY(void);                                                    // Returns touch position Y (relative to screen size)
-    Vector2 GetTouchPosition(void);                                         // Returns touch position XY (relative to screen size)
-    
+    // Input-related functions: touch
+    int GetTouchX(void);                                                    // Get touch position X for touch point 0 (relative to screen size)
+    int GetTouchY(void);                                                    // Get touch position Y for touch point 0 (relative to screen size)
+    Vector2 GetTouchPosition(int index);                                    // Get touch position XY for a touch point index (relative to screen size)
+
     // Gestures-related functions
     void SetGesturesEnabled(unsigned int gestureFlags);                     // Enable a set of gestures using flags
     bool IsGestureDetected(int gesture);                                    // Check if a gesture have been detected
     int GetGestureDetected(void);                                           // Get latest detected gesture
+    int GetTouchPointsCount(void);                                          // Get touch points count
+    float GetGestureHoldDuration(void);                                     // Get gesture hold time in milliseconds
+    Vector2 GetGestureDragVector(void);                                     // Get gesture drag vector
+    float GetGestureDragAngle(void);                                        // Get gesture drag angle
+    Vector2 GetGesturePinchVector(void);                                    // Get gesture pinch delta
+    float GetGesturePinchAngle(void);                                       // Get gesture pinch angle
     
     // Camera-related functions
-    void SetCameraMode(int mode);                                           // Set camera mode (multiple camera modes available)
-    void UpdateCamera(Camera *camera);                                      // Update camera (player position is ignored)
-    void UpdateCameraPlayer(Camera *camera, Vector3 *position);             // Update camera and player position (1st person and 3rd person cameras)
-    void SetCameraPosition(Vector3 position);                               // Set internal camera position
-    void SetCameraTarget(Vector3 target);                                   // Set internal camera target
-    void SetCameraFovy(float fovy);                                         // Set internal camera field-of-view-y
+    SetCameraMode(Camera camera, int mode);                                 // Set camera mode (multiple camera modes available)
+    void UpdateCamera(Camera *camera);                                      // Update camera position for selected mode
+    void SetCameraPanControl(int panKey);                                   // Set camera pan key to combine with mouse movement (free camera)
+    void SetCameraAltControl(int altKey);                                   // Set camera alt key to combine with mouse movement (free camera)
+    void SetCameraSmoothZoomControl(int szKey);                             // Set camera smooth zoom key to combine with mouse (free camera)
+    void SetCameraMoveControls(int frontKey, int backKey,
+                               int rightKey, int leftKey,
+                               int upKey, int downKey);                     // Set camera move controls (1st person and 3rd person cameras)
 
+                               

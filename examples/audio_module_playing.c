@@ -30,6 +30,8 @@ int main()
     int screenWidth = 800;
     int screenHeight = 450;
 
+    SetConfigFlags(FLAG_MSAA_4X_HINT);      // NOTE: Try to enable MSAA 4X
+    
     InitWindow(screenWidth, screenHeight, "raylib [audio] example - module playing (streaming)");
 
     InitAudioDevice();              // Initialize audio device
@@ -49,17 +51,13 @@ int main()
         circles[i].speed = (float)GetRandomValue(1, 100)/20000.0f;
         circles[i].color = colors[GetRandomValue(0, 13)];
     }
+
+    Music xm = LoadMusicStream("resources/audio/mini1111.xm");
     
-    // Load postprocessing bloom shader
-    Shader shader = LoadShader("resources/shaders/glsl330/base.vs", 
-                               "resources/shaders/glsl330/bloom.fs");
-
-    // Create a RenderTexture2D to be used for render to texture
-    RenderTexture2D target = LoadRenderTexture(screenWidth, screenHeight);
-
-    PlayMusicStream(0, "resources/audio/2t2m_spa.xm");         // Play module stream
+    PlayMusicStream(xm);
 
     float timePlayed = 0.0f;
+    bool pause = false;
 
     SetTargetFPS(60);               // Set our game to run at 60 frames-per-second
     //--------------------------------------------------------------------------------------
@@ -69,7 +67,29 @@ int main()
     {
         // Update
         //----------------------------------------------------------------------------------
-        for (int i = MAX_CIRCLES - 1; i >= 0; i--)
+        UpdateMusicStream(xm);        // Update music buffer with new stream data
+        
+        // Restart music playing (stop and play)
+        if (IsKeyPressed(KEY_SPACE)) 
+        {
+            StopMusicStream(xm);
+            PlayMusicStream(xm);
+        }
+        
+        // Pause/Resume music playing 
+        if (IsKeyPressed(KEY_P))
+        {
+            pause = !pause;
+            
+            if (pause) PauseMusicStream(xm);
+            else ResumeMusicStream(xm);
+        }
+        
+        // Get timePlayed scaled to bar dimensions
+        timePlayed = (GetMusicTimePlayed(xm)/GetMusicTimeLength(xm)*(screenWidth - 40))*2;
+        
+        // Color circles animation
+        for (int i = MAX_CIRCLES - 1; (i >= 0) && !pause; i--)
         {
             circles[i].alpha += circles[i].speed;
             circles[i].radius += circles[i].speed*10.0f;
@@ -86,39 +106,23 @@ int main()
                 circles[i].speed = (float)GetRandomValue(1, 100)/20000.0f;
             }
         }
-
-        // Get timePlayed scaled to bar dimensions
-        timePlayed = (GetMusicTimePlayed(0)/GetMusicTimeLength(0)*(screenWidth - 40))*2;
-        
-        UpdateMusicStream(0);        // Update music buffer with new stream data
         //----------------------------------------------------------------------------------
 
         // Draw
         //----------------------------------------------------------------------------------
         BeginDrawing();
 
-            ClearBackground(BLACK);
+            ClearBackground(WHITE);
             
-            BeginTextureMode(target);   // Enable drawing to texture
-
-                for (int i = MAX_CIRCLES - 1; i >= 0; i--)
-                {
-                    DrawCircleV(circles[i].position, circles[i].radius, Fade(circles[i].color, circles[i].alpha));
-                }
-                
-            EndTextureMode();           // End drawing to texture (now we have a texture available for next passes)
+            for (int i = MAX_CIRCLES - 1; i >= 0; i--)
+            {
+                DrawCircleV(circles[i].position, circles[i].radius, Fade(circles[i].color, circles[i].alpha));
+            }
             
-            BeginShaderMode(shader);
-
-                // NOTE: Render texture must be y-flipped due to default OpenGL coordinates (left-bottom)
-                DrawTextureRec(target.texture, (Rectangle){ 0, 0, target.texture.width, -target.texture.height }, (Vector2){ 0, 0 }, WHITE);
-                
-            EndShaderMode();
-
             // Draw time bar
             DrawRectangle(20, screenHeight - 20 - 12, screenWidth - 40, 12, LIGHTGRAY);
             DrawRectangle(20, screenHeight - 20 - 12, (int)timePlayed, 12, MAROON);
-            DrawRectangleLines(20, screenHeight - 20 - 12, screenWidth - 40, 12, WHITE);
+            DrawRectangleLines(20, screenHeight - 20 - 12, screenWidth - 40, 12, GRAY);
 
         EndDrawing();
         //----------------------------------------------------------------------------------
@@ -126,8 +130,7 @@ int main()
 
     // De-Initialization
     //--------------------------------------------------------------------------------------
-    UnloadShader(shader);           // Unload shader
-    UnloadRenderTexture(target);    // Unload render texture
+    UnloadMusicStream(xm);          // Unload music stream buffers from RAM
     
     CloseAudioDevice();     // Close audio device (music streaming is automatically stopped)
 

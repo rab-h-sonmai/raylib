@@ -41,6 +41,8 @@ $(document).ready(function() {
         'text_format_text',
         'text_font_select',
         'text_writing_anim',
+        'text_ttf_loading',
+        'text_bmfont_unordered',
         'models_geometric_shapes',
         'models_box_collisions',
         'models_billboard',
@@ -54,7 +56,8 @@ $(document).ready(function() {
         'shaders_standard_lighting',
         'audio_sound_loading',
         'audio_music_stream',
-        'audio_module_playing'];
+        'audio_module_playing',
+        'audio_raw_stream'];
 
     var exampleDesc = [
         'basic window',
@@ -94,6 +97,8 @@ $(document).ready(function() {
         'text formatting',
         'font selection',
         'writing animation',
+        'ttf loading',
+        'bmfont unordered',
         'geometric shapes',
         'box collisions',
         'billboard drawing',
@@ -107,7 +112,8 @@ $(document).ready(function() {
         'standard lighting',
         'sound loading',
         'music streaming',
-        'module playing'];
+        'module playing',
+        'raw stream'];
 
     for (var i = 0; i < exampleName.length; i++)
     {
