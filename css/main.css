@@ -105,3 +105,5 @@ p a:hover{text-decoration: none; color:gray;}
 #paypalbox{width:200px; height:50px; border:12px solid; border-color:#d0d0d0; background-color:#e4e4e4; margin:0 auto;}
 #paypalform input {margin-top: 12px; margin-left: 50px;}
 #forum{color: maroon;}
+
+#itchioframe{display:block;text-align:center;}
