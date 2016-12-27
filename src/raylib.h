@@ -180,6 +180,15 @@
     #define KEY_VOLUME_DOWN      25
 #endif
 
+#if defined(PLATFORM_DESKTOP)
+	typedef enum {
+		KeyState_Pressed,
+		KeyState_Released,
+		KeyState_Repeated
+	} KeyState;
+	typedef int(*RayLibKeycallback)(int key, int scancode, KeyState state, int modifiers);
+#endif
+
 // Mouse Buttons
 #define MOUSE_LEFT_BUTTON     0
 #define MOUSE_RIGHT_BUTTON    1
@@ -676,6 +685,7 @@ RLAPI int StorageLoadValue(int position);                         // Storage loa
 //------------------------------------------------------------------------------------
 // Input Handling Functions (Module: core)
 //------------------------------------------------------------------------------------
+RLAPI void SetKeycallback(RayLibKeycallback callback);        // Set a callback function for when a key is pressed
 RLAPI bool IsKeyPressed(int key);                             // Detect if a key has been pressed once
 RLAPI bool IsKeyDown(int key);                                // Detect if a key is being pressed
 RLAPI bool IsKeyReleased(int key);                            // Detect if a key has been released once

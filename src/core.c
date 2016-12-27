@@ -147,6 +147,7 @@
 #if defined(PLATFORM_DESKTOP) || defined(PLATFORM_WEB)
 static GLFWwindow *window;                      // Native window (graphic device)
 static bool windowMinimized = false;
+static RayLibKeycallback keycallback = 0;
 #endif
 
 #if defined(PLATFORM_ANDROID)
@@ -2114,9 +2115,25 @@ static void ScrollCallback(GLFWwindow *window, double xoffset, double yoffset)
     currentMouseWheelY = (int)yoffset;
 }
 
+void SetKeycallback(RayLibKeycallback callback)
+{
+	keycallback = callback;
+}
+
 // GLFW3 Keyboard Callback, runs on key pressed
 static void KeyCallback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
+	if (keycallback)
+	{
+		KeyState state = KeyState_Pressed;
+		if (action == GLFW_RELEASE) state = KeyState_Released;
+		if (action == GLFW_REPEAT) state = KeyState_Repeated;
+		if (keycallback(key, scancode, state, mods))
+		{
+			return;
+		}
+	}
+
     if (key == exitKey && action == GLFW_PRESS)
     {
         glfwSetWindowShouldClose(window, GL_TRUE);
